@@ -10,7 +10,9 @@ const paymentrouter = require("./src/routes/payment.routes")
 const adminroute = require("./src/routes/admin.route")
 const cors = require("cors")
 
-app.use(cors('*'))
+app.use(cors({
+    
+}))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use("/upload",express.static("src/public/coursefiles/"))
