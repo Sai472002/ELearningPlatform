@@ -29,7 +29,7 @@ const CustomAvatar = ({ name, imagepath }) => {
     formData.append("profilepicture", file);
 
     if (file) {
-      const response = await POSTFILE("http://localhost:3000/uploadimage", formData);
+      const response = await POSTFILE(`${process.env.REACT_APP_BACKEND_URL}`, formData);
       // Create a local URL of the selected file and update image state
       
     }
