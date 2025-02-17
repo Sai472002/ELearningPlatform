@@ -38,3 +38,7 @@ app.listen(3000, () => {
         console.log("Connection Failed");
     }
 })
+app.get("/", (req, res) => {
+    res.send("Welcome to the E-Learning Backend API!");
+  });
+  
