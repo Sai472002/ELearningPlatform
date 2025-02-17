@@ -31,6 +31,11 @@ app.use(paymentrouter)
 app.use(adminroute)
 app.use(requestrouter)
 
+app.get("/", (req, res) => {
+    res.send("Welcome to the E-Learning Backend API!");
+  });
+  
+
 app.listen(3000, () => {
     try {
         console.log("Server Connected");      
@@ -38,7 +43,3 @@ app.listen(3000, () => {
         console.log("Connection Failed");
     }
 })
-app.get("/", (req, res) => {
-    res.send("Welcome to the E-Learning Backend API!");
-  });
-  
