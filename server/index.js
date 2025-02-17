@@ -12,7 +12,11 @@ const requestrouter = require("./src/routes/request.route")
 const profilepicturerouter = require("./src/middleware/Profile.route")
 const cors = require("cors")
 
-app.use(cors('*'))
+app.use(cors({
+    origin: process.env.FRONTEND_URL,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true, 
+  }));
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use("/upload",express.static("src/public/coursefiles/"))
