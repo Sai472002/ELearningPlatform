@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { CloseOutlined, MenuOutlined, UserOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CustomDropdown from "../../Common/CustomDropdown";
+import { Modal } from "antd";
 
 const Nav = () => {
   const [isMenu, setIsMenu] = useState(false);
+  const navigate = useNavigate();
+  const { confirm } = Modal;
   const [menuId, setMenuId] = useState(null);
   const [signOut, setSignOut] = useState(!sessionStorage.getItem("token"));
 
@@ -22,11 +25,33 @@ const Nav = () => {
     updatedNavList.push({ id: 7, to: "/login", title: "Login" });
   }
   if (!signOut) {
-    navList.push({ id: 8, to: "/mycourse", title: "mycourse" },{ id: 6, to: "/login", title: "Sign out" });
+    navList.push(
+      { id: 8, to: "/mycourse", title: "mycourse" },
+      { id: 6, to: null, title: "Sign out" }
+    );
   } else {
     navList.push({ id: 7, to: "/login", title: "Login" });
   }
+  const showConfirm = () => {
+    confirm({
+      title: "Are you sure you want to logout ?",
+      icon: null,
+      content: null,
+      onOk() {
+        handleSignOut();
+      },
+      okButtonProps: {
+        className: "bg-red-500",
+      },
+      okText: "Logout",
+    });
+  };
 
+  const handleSignOut = () => {
+    sessionStorage.clear();
+    setSignOut(true);
+    navigate("/login");
+  };
   const menuVariants = {
     open: {
       opacity: 1,
@@ -56,9 +81,7 @@ const Nav = () => {
   const handleToken = (id) => {
     handleMenuClick();
     if (id === 6) {
-      sessionStorage.removeItem("token");
-      sessionStorage.removeItem("name");
-      setSignOut(true);
+      showConfirm();
     }
   };
 
@@ -85,14 +108,19 @@ const Nav = () => {
         ))}
         {!signOut && (
           <CustomDropdown
-            onClick={() => setMenuId(5)}
+            onClick={() => {
+              setMenuId(5);
+            }}
+            CustomFunction={showConfirm}
             icon={
               <UserOutlined
                 className={`text-white p-2 border-2 rounded-full`}
               />
             }
             className=""
-            menus={navList.filter((menu) => menu.id === 5 || menu.id === 6 || menu.id === 8)}
+            menus={navList.filter(
+              (menu) => menu.id === 5 || menu.id === 6 || menu.id === 8
+            )}
           />
         )}
       </div>

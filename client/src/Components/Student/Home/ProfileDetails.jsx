@@ -2,13 +2,15 @@ import React, { useEffect, useMemo, useState } from "react";
 import CustomInput from "../../Common/CustomInput";
 import { GET, PUT } from "../../ApiFunction/ApiFunction";
 import CustomButton from "../../Common/CustomButton";
-import { Checkbox, Radio, Switch } from "antd";
+import { Avatar, Checkbox, Radio, Switch } from "antd";
 import { useCustomMessage } from "../../Common/CustomMessage";
 import TextArea from "antd/es/input/TextArea";
 import CustomProgressBar from "../../Common/CustomProgressBar";
 import CustomSkeleton from "../../Common/CustomSkeleton";
 import axios from "axios";
 import CustomDropdown from "../../Common/CustomDropdown";
+import { EditFilled, MailOutlined, PhoneOutlined } from "@ant-design/icons";
+import CustomAvatar from "../../Common/CustomAvatar";
 
 const ProfileDetails = () => {
   const showMessage = useCustomMessage();
@@ -56,7 +58,6 @@ const ProfileDetails = () => {
   };
 
   const fetchData = async () => {
-    let count = 0
     try {
       const token = sessionStorage.getItem("token");
       if (token) {
@@ -64,18 +65,25 @@ const ProfileDetails = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
         setData(result.data);
-        const filteredData = result.data.map(user => ({
+        const filteredData = result.data.map((user) => ({
           username: user.username ? 10 : 0,
           fullname: user.fullname ? 10 : 0,
-          phonenumber:user.phonenumber ? 10 : 0,
-          designation: user.designation ? 10 : 0,
-          age:user.age ? 10 : 0,
-          gender:user.gender ? 10 : 0,
-          email:user.email ? 10 : 0,
-          address:user.address ? 10 : 0,
+          phonenumber: user.phonenumber ? 10 : 0,
+          age: user.age ? 10 : 0,
+          gender: user.gender ? 10 : 0,
+          email: user.email ? 10 : 0,
+          address: user.address ? 10 : 0,
         }));
-        const count = filteredData[0].username + filteredData[0].fullname + filteredData[0].phonenumber + filteredData[0].age + filteredData[0].gender + filteredData[0].email + filteredData[0].designation + filteredData[0].address + 20;
-        setPieData(count)
+        const count =
+          filteredData[0].username +
+          filteredData[0].fullname +
+          filteredData[0].phonenumber +
+          filteredData[0].age +
+          filteredData[0].gender +
+          filteredData[0].email +
+          filteredData[0].address +
+          30;
+        setPieData(count);
         if (result.data?.length > 0 && result.data[0].gender) {
           setCheckBoxValue(result.data[0].gender);
           setAddress(result.data[0].address);
@@ -112,6 +120,7 @@ const ProfileDetails = () => {
       if (result.status === 200) {
         setIsLoading(false);
         showMessage("success", "Data added Successfully");
+        fetchData();
       }
     } catch (error) {
       showMessage("error", "Something went wrong");
@@ -155,45 +164,47 @@ const ProfileDetails = () => {
   };
 
   return (
-    <form className=" lg:mx-auto rounded-lg grid gap-2 p-4 lg:p-6">
-      <div className="flex items-center gap-4 h-fit ">
-        <h1 className="lg:text-2xl text-base border-l-8 border-Primary pl-2 font-semibold text-PrimaryDark my-4 tracking-widest">
-          Profile details
-        </h1>
-        <CustomButton
-          title={"submit"}
-          onClick={handleButtonClick}
-          className={`ml-auto text-xs ${
-            isupdate && "bg-green-500"
-          } capitalize tracking-wider`}
-          color="solid"
-          disabled={isupdate}
-          loading={isLoading}
-        />
+    <form className=" lg:mx-auto grid gap-2 p-4 lg:p-6">
+      <h1 className="lg:text-2xl text-base font-light text-gray-500 tracking-wide mb-4">
+        Details
+      </h1>
+      <div className="shadow grid gap-4 rounded-lg p-4 min-h-24 bg-white">
+        <div className="flex items-center gap-4">
+          <CustomAvatar name={data[0]?.username} />
+          <p className="grid">
+            {data[0]?.username}
+            <small className="text-xs text-gray-400">
+              {data[0]?.designation || "Student"}
+            </small>
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-2 lg:block">
+          <small className="bg-gray-100 rounded-lg p-1 px-2 text-xs w-fit">
+            <MailOutlined className="mr-2" />
+            {data[0]?.email}
+          </small>
+          <small className="bg-gray-100 rounded-lg p-1 px-2 text-xs sm:ml-4 w-fit">
+            <PhoneOutlined className="mr-2" />
+            {data[0]?.phonenumber}
+          </small>
+        </div>
+        <CustomProgressBar percent={pieData || 20} defaultColor active />
       </div>
-      <div className="flex items-center gap-4 justify-between">
-          <CustomProgressBar
-            percent={pieData || 20}
-            defaultColor
-            strokeWidth={12}
-            strokeLinecap="butt"
-            className="w-4/5"
+      <div className=" flex items-center justify-between transition-all ">
+        <span className="flex items-center">
+          <span className="lg:text-2xl text-base font-light text-gray-500 tracking-wide">
+            Edit
+          </span>
+          <EditFilled
+            onClick={() => setIsupdate(!isupdate)}
+            className="shadow duration-500 scale-100 bg-white hover:bg-Primary/10 hover:text-Primary p-2 rounded-full"
           />
-        <Checkbox
-          checked={checked}
-          onChange={() => {
-            setIsupdate(!isupdate);
-            setChecked(!checked);
-          }}
-          className={`text-xs text-Primary focus:ring-Primary bg-Primary/10 p-1 ${checked ? "" : ""}`}
-        >
-          Edit
-        </Checkbox>
+        </span>
       </div>
       {data.length > 0 ? (
         <div
-          className="grid grid-cols-1 mt-4 md:grid-cols-2
-          lg:grid-cols-4 gap-4 items-center rounded-lg border-2 p-8 bg-white"
+          className="grid grid-cols-1 md:grid-cols-2
+          lg:grid-cols-4 gap-4 items-center rounded-lg p-8 bg-white"
         >
           {data.map((each) =>
             each.title
@@ -244,7 +255,8 @@ const ProfileDetails = () => {
             <CustomDropdown
               type="select"
               className="w-full"
-              value={designation}
+              value={designation || "Student"}
+              defaultValue={1}
               disabled={true}
               menus={designationLists}
               onChange={(e) => {
@@ -255,6 +267,17 @@ const ProfileDetails = () => {
         </div>
       ) : (
         <CustomSkeleton active rows={4} />
+      )}
+      {!isupdate && (
+        <CustomButton
+          title={"submit"}
+          onClick={handleButtonClick}
+          className={`absolute bottom-6 right-6 text-xs ${
+            !isupdate && "bg-Primary"
+          } capitalize tracking-wider`}
+          color="solid"
+          loading={isLoading}
+        />
       )}
     </form>
   );

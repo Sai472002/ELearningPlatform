@@ -10,7 +10,9 @@ const adminSchema = new mongoose.Schema({
     age: Number,
     gender: String,
     email: String,
-    userId:String
+    userId:String,
+    imagename:String,
+    imagepath:String
 
 },{timestamps:true})
 

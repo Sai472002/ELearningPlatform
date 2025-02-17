@@ -7,6 +7,7 @@ const CustomInput = ({
   placeholder = "",
   status = "",
   prefix,
+  suffix,
   title,
   name,
   value,
@@ -48,6 +49,7 @@ const CustomInput = ({
           key={key}
           value={disabled && !value ? "--" : value}
           prefix={prefix}
+          suffix={suffix}
           disabled={disabled}
           onChange={handleChange}
           autoComplete={autoComplete}
@@ -63,6 +65,7 @@ const CustomInput = ({
           name={name}
           value={disabled && !value ? "--" : value}
           prefix={prefix}
+          suffix={suffix}
           disabled={disabled}
           onChange={handleChange}
           autoComplete={autoComplete}

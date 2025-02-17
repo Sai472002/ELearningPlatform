@@ -12,6 +12,8 @@ const InstSch = new mongoose.Schema(
     designation: String,
     experience: String,
     expertise: String,
+    imagename:String,
+    imagepath:String,
     title: {
       type: [String],
       default: ["username", "phonenumber", "age", "email", "experience"],

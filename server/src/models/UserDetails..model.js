@@ -12,6 +12,8 @@ const userSch = new mongoose.Schema(
     email: String,
     address:String,
     designation: String,
+    imagename:String,
+    imagepath:String,
     myCourses:[String],
     title: {
       type: [String],

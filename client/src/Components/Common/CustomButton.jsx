@@ -1,10 +1,15 @@
-import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
+import {
+  CheckOutlined,
+  CloseOutlined,
+  DeleteTwoTone,
+  EditTwoTone,
+} from "@ant-design/icons";
 import { Button } from "antd";
 import React from "react";
 
 const CustomButton = ({
   type = "default",
-  color = "default",
+  color,
   variant = "solid",
   disabled,
   size = "default",
@@ -18,13 +23,20 @@ const CustomButton = ({
 }) => {
   return (
     <>
-      {type === "edit" || type === "delete" ? (
+      {type === "edit" ||
+      type === "delete" ||
+      type === "approve" ||
+      type === "reject" ? (
         <Button
           className={`uppercase w-fit ${className} ${
-            type === "edit" ? "hover:bg-blue-100" : "hover:bg-red-100"
+            type === "edit"
+              ? "hover:bg-blue-100"
+              : type === "approve"
+              ? "hover:bg-green-100"
+              : "hover:bg-red-100"
           }`}
           color={color}
-          variant={"default"}
+          variant={type === "approve" || type === "reject" ? "link" : "default"}
           disabled={disabled}
           size={"small"}
           shape={"circle"}
@@ -33,6 +45,10 @@ const CustomButton = ({
         >
           {type === "edit" ? (
             <EditTwoTone shape="circle" className="absolute" />
+          ) : type === "approve" ? (
+            <CheckOutlined className="absolute p-1 text-green-600" />
+          ) : type === "reject" ? (
+            <CloseOutlined className="absolute p-1 text-red-600" />
           ) : (
             <DeleteTwoTone
               shape="circle"

@@ -3,6 +3,7 @@ import {
   ContainerOutlined,
   DashboardOutlined,
   LogoutOutlined,
+  MenuOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { motion } from "framer-motion";
@@ -16,9 +17,10 @@ const AdminDashboard = () => {
   const [menuId, setMenuId] = useState(0);
   const [userData, setUserData] = useState("- - -");
 
+  const url = process.env.REACT_APP_BACKEND_URL;
   const fetchData = async () => {
-    const result = await GET("http://localhost:3000/admindetails");
-    if (result.length > 0) {
+    const result = await GET(`${url}/admindetails`);
+    if (result?.length > 0) {
       setUserData(result[0]);
     }
   };
@@ -52,6 +54,12 @@ const AdminDashboard = () => {
       id: 4,
       to: "/adminpanel/student",
       title: "Students",
+      icon: <UserOutlined className="mr-2" />,
+    },
+    {
+      id: 5,
+      to: "/adminpanel/request",
+      title: "Requests",
       icon: <UserOutlined className="mr-2" />,
     },
   ];
@@ -94,7 +102,7 @@ const AdminDashboard = () => {
     >
       <div className=" lg:flex items-start lg:bg-Primary ">
         <h1 className="font-bold tracking-widest lg-text-lg p-4 bg-Primary flex text-white lg:w-fit items-center w-full">
-          <DashboardOutlined
+          <MenuOutlined
             className={`mr-2 bg-gray-100/10 hover:bg-white ${
               isMenuOpen && "bg-white text-black"
             } hover:text-black transition-all duration-300 text-white rounded-full p-2`}

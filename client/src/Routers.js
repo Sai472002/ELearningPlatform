@@ -25,6 +25,7 @@ import AdminCourse from "./Components/Admin/Course/AdminCourse";
 import AdminInstructor from "./Components/Admin/Instructor/AdminInstructor";
 import AdminDashboard from "./Components/Admin/AdminDashboard";
 import AdminStudent from "./Components/Admin/Student/AdminStudent";
+import Request from "./Components/Instructor/Request/Request";
 
 const Routers = () => {
   return (
@@ -62,6 +63,10 @@ const Routers = () => {
             element={<InstructorCourse />}
           />
           <Route
+            path="/instructordashboard/instructorrequest"
+            element={<Request />}
+          />
+          <Route
             path="/instructordashboard/instructorcourse/addCourse"
             element={<AddCourse />}
           />
@@ -76,6 +81,7 @@ const Routers = () => {
           <Route path="/adminpanel/course/addCourse" element={<AddCourse />} />
           <Route path="/adminpanel/instructor" element={<AdminInstructor />} />
           <Route path="/adminpanel/student" element={<AdminStudent />} />
+          <Route path="/adminpanel/request" element={<Request />} />
           <Route
             path="/adminpanel/course/editCourse"
             element={<EditCourse />}

@@ -15,10 +15,9 @@ const AdminProfile = () => {
   const [courseData, setCourseData] = useState([]);
   const [active, setActive] = useState(0);
   const [adminstats , setAdminstats] = useState({})
-  const url = "http://localhost:3000";
   const courseImg = userData.map((v) => v.imagePath);
   console.log(courseImg);
-
+  const url = process.env.REACT_APP_BACKEND_URL
   const adminData = [
     {
       title: "Courses",
@@ -46,7 +45,7 @@ const AdminProfile = () => {
       ["Personal Development", "#ca8a04"],
       ["Other", "#16a34a"],
     ]);
-    const result = await GET("http://localhost:3000/getallcourse");
+    const result = await GET(`${url}/getallcourse`);
     setUserData(result);
     const course = result
       ?.map((v) => v.courseType)
@@ -68,7 +67,7 @@ const AdminProfile = () => {
 
   const fetchadmin = async()=>{
     try {
-      const stats = await GET("http://localhost:3000/adminstats");
+      const stats = await GET(`${url}/adminstats`);
       setAdminstats(stats)
     } catch (error) {
       console.log(error)

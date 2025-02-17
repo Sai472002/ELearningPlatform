@@ -22,7 +22,7 @@ const CourseDetails = () => {
   const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
   const getCourse = async () => {
-    const data = await GET(`http://localhost:3000/getcourse/${_id}`);
+    const data = await GET(`${process.env.REACT_APP_BACKEND_URL}/getcourse/${_id}`);
     setTemp(data);
   };
 
@@ -63,7 +63,7 @@ const CourseDetails = () => {
     console.log(item._id);
 
     const response = await axios.post(
-      "http://localhost:3000/create-checkout-session",
+      `${process.env.REACT_APP_BACKEND_URL}/create-checkout-session`,
       { price: item.price, course: item._id },
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -82,7 +82,7 @@ const CourseDetails = () => {
       {temp.length > 0 &&
         temp.map((item, index) => (
           <div className="sm:flex h-full md:h-[90vh] w-full border relative">
-            <div className="sm:w-fit bg-white border flex gap-4 p-4 flex-col">
+            <div className="sm:w-[25%] bg-white border flex gap-4 p-4 flex-col">
               <h1 className="lg:text-xl font-semibold pb-2 ">
                 <DoubleLeftOutlined
                   onClick={() => navigate(-1)}
@@ -94,7 +94,7 @@ const CourseDetails = () => {
                 {item.courseName}
               </p>
               <p className="text-xs md:text-sm text-Primary">Requirements</p>
-              <div className="text-xs max-w-96 p-2 min-h-40 ">
+              <div className="text-xs p-2 min-h-40 ">
                 {item.title.map((v) => (
                   <ol className="list-disc list-inside leading-relaxed">
                     <li>{v}</li>
@@ -118,7 +118,7 @@ const CourseDetails = () => {
                   className="h-full bg-gray-100 w-full mx-auto"
                 >
                   <source
-                    src={`http://localhost:3000${item.videoPath}`}
+                    src={`${process.env.REACT_APP_BACKEND_URL}${item.videoPath}`}
                     type="video/mp4"
                   />
                   Your browser does not support the video tag.

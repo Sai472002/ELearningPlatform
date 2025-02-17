@@ -6,26 +6,31 @@ const CustomDropdown = ({
   menus,
   type = "default",
   onClick,
+  CustomFunction = () => {},
   title,
   className,
   placement = "bottom",
   icon,
-  titleClassName,variant,
-  placeholder,allowClear,defaultValue,disabled,required,containerClassName,onChange,value
+  titleClassName,
+  variant,
+  placeholder,
+  allowClear,
+  defaultValue,
+  disabled,
+  required,
+  containerClassName,
+  onChange,
+  value,
 }) => {
-
   const styledMenus = menus.map((menu) => ({
     key: menu.id,
     label: (
       <span
-        className={`lg:py-2 rounded-none text-gray-700 font-Poppins ${
-          menu.id === 6 && "text-red-500"
+        className={` rounded-none font-Poppins ${
+          menu.id === 6 && "text-red-500 "
         }`}
       >
-        <Link
-          to={menu.to}
-          onClick={() => menu.id === 6 && sessionStorage.removeItem("token")}
-        >
+        <Link to={menu.to} onClick={() => menu.id === 6 && CustomFunction()}>
           {menu.title}
         </Link>
       </span>
@@ -49,23 +54,27 @@ const CustomDropdown = ({
         </Dropdown>
       ) : (
         <span className={containerClassName}>
-          <p className={`text-base font-normal capitalize mb-4 text-gray-700 ${titleClassName}`}>
-        {title}
-        {required && (
-            <span className="text-red-500 mx-1 text-xs bg-red-50 rounded-md p-1">required</span>
-        )}
-      </p>
-      <Select
-        defaultValue={defaultValue}
-        value={value} 
-        allowClear={allowClear}
-        options={selectOptions}
-        placeholder={placeholder}
-        disabled={disabled}
-        className={`${className}`}
-        onChange={onChange}
-        variant={variant}
-      />
+          <p
+            className={`text-base font-normal capitalize mb-4 text-gray-700 ${titleClassName}`}
+          >
+            {title}
+            {required && (
+              <span className="text-red-500 mx-1 text-xs bg-red-50 rounded-md p-1">
+                required
+              </span>
+            )}
+          </p>
+          <Select
+            defaultValue={defaultValue}
+            value={value}
+            allowClear={allowClear}
+            options={selectOptions}
+            placeholder={placeholder}
+            disabled={disabled}
+            className={`${className}`}
+            onChange={onChange}
+            variant={variant}
+          />
         </span>
       )}
     </>

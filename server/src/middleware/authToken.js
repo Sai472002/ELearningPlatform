@@ -9,7 +9,7 @@ const tokenGen = async(userId) => {
 // verifies the token in request
 const verifyToken = async (req, res, next) => {
     const token = req.headers.authorization;
-console.log(token);
+// console.log(token);
 
     
     if (!token) {

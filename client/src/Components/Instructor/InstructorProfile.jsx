@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
 import CustomDropdown from "../Common/CustomDropdown";
 import TextArea from "antd/es/input/TextArea";
-import { Radio } from "antd";
-import { EditFilled } from "@ant-design/icons";
+import { Avatar, Radio } from "antd";
+import { EditFilled, MailOutlined, PhoneOutlined } from "@ant-design/icons";
 import CustomButton from "../Common/CustomButton";
 import CustomSkeleton from "../Common/CustomSkeleton";
 import CustomInput from "../Common/CustomInput";
 import { GET, PUT } from "../ApiFunction/ApiFunction";
 import { useCustomMessage } from "../Common/CustomMessage";
+import CustomProgressBar from "../Common/CustomProgressBar";
+import CustomAvatar from "../Common/CustomAvatar";
 
 const InstructorProfile = () => {
   const showMessage = useCustomMessage();
 
   const [data, setData] = useState([]);
+  const [pieData, setPieData] = useState([]);
   const [isupdate, setIsupdate] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [checkBoxValue, setCheckBoxValue] = useState("male");
@@ -20,8 +23,31 @@ const InstructorProfile = () => {
   const [designation, setDesignation] = useState("");
   const [expertise, setExpertise] = useState("Programming");
   const fetchData = async () => {
-    const result = await GET("http://localhost:3000/getinsdata");
+    const result = await GET(`${process.env.REACT_APP_BACKEND_URL}/getinsdata`);
     if (result && result.length > 0) {
+      const filteredData = result?.map((user) => ({
+        username: user.username ? 10 : 0,
+        experience: user.experience ? 10 : 0,
+        phonenumber: user.phonenumber ? 10 : 0,
+        designation: user.designation ? 10 : 0,
+        age: user.age ? 10 : 0,
+        gender: user.gender ? 10 : 0,
+        email: user.email ? 10 : 0,
+        address: user.address ? 10 : 0,
+        expertise: user.expertise ? 10 : 0,
+      }));
+      const count =
+        filteredData[0].username +
+        filteredData[0].experience +
+        filteredData[0].phonenumber +
+        filteredData[0].age +
+        filteredData[0].gender +
+        filteredData[0].email +
+        filteredData[0].designation +
+        filteredData[0].address +
+        filteredData[0].expertise +
+        10;
+      setPieData(count);
       setData(result);
       setCheckBoxValue(result[0].gender);
       setAddress(result[0].address);
@@ -46,12 +72,13 @@ const InstructorProfile = () => {
     convertedObject.expertise = expertise;
     try {
       const result = await PUT(
-        "http://localhost:3000/editinsdata",
+        `${process.env.REACT_APP_BACKEND_URL}/editinsdata`,
         convertedObject
       );
       if (result.status === 200) {
         setIsLoading(false);
         showMessage("success", "Data added Successfully");
+        fetchData();
       }
     } catch (error) {
       showMessage("error", "Something went wrong");
@@ -130,16 +157,15 @@ const InstructorProfile = () => {
       showMessage("error", "Data is missing or not initialized properly");
       return;
     }
-    const phonePattern = /^\d{10}$/;  // Ensures the phone number is exactly 10 digits
-    const agePattern = /^\d{2}$/;     // Ensures the age is exactly 2 digits
+    const phonePattern = /^\d{10}$/; // Ensures the phone number is exactly 10 digits
+    const agePattern = /^\d{2}$/; // Ensures the age is exactly 2 digits
 
     Object.keys(data[0]).forEach((key) => {
       if (typeof data[0][key] === "string") {
         data[0][key] = data[0][key].trim(); // Trim strings
       }
     });
-    
-     
+
     if (!phonePattern.test(data[0].phonenumber)) {
       showMessage("error", "Please enter a valid 10-digit mobile number");
       return;
@@ -150,26 +176,51 @@ const InstructorProfile = () => {
       // Proceed with the data submission
       postData();
       setIsupdate(true);
-    
     }
   };
 
   return (
-    <div>
-      <div className="pb-2 border-b flex items-center justify-between transition-all ">
-        <h1 className="font-semibold tracking-wider lg:text-lg">Details</h1>
+    <div className="grid gap-4">
+      <h1 className="lg:text-2xl text-base font-light text-gray-500 tracking-wide">
+        Details
+      </h1>
+      <div className="shadow grid gap-4 rounded-lg p-4 min-h-24 bg-gradient-to-tl from-Primary/10 to-transparent">
+        <div className="flex items-center gap-4">
+          <CustomAvatar name={data[0]?.username} imagepath={data[0]?.imagepath} />
+          <p className="grid">
+            {data[0]?.username}
+            <small className="text-xs text-gray-400">
+              {data[0]?.designation}
+            </small>
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-2 lg:block">
+          <small className="bg-gray-100 rounded-lg p-1 px-2 text-xs w-fit">
+            <MailOutlined className="mr-2" />
+            {data[0]?.email}
+          </small>
+          <small className="bg-gray-100 rounded-lg p-1 px-2 text-xs sm:ml-4 w-fit">
+            <PhoneOutlined className="mr-2" />
+            {data[0]?.phonenumber}
+          </small>
+        </div>
+        <CustomProgressBar percent={pieData || 20} defaultColor active />
+      </div>
+      <div className=" flex items-center justify-between transition-all ">
         <span className="flex items-center">
-          <span className="mr-2 hidden lg:block text-gray-400">Edit</span>
+          <span className="lg:text-2xl text-base font-light text-gray-500 tracking-wide">
+            Edit
+          </span>
           <EditFilled
             onClick={() => setIsupdate(!isupdate)}
-            className="shadow duration-500 scale-100 hover:bg-Primary/10 hover:text-Primary p-2 rounded-full"
+            className="shadow duration-500 scale-100 bg-Primary/10 ml-4 text-Primary p-2 rounded-full"
           />
         </span>
       </div>
       {data.length > 0 ? (
         <form
-          className="grid grid-cols-1 mt-4 md:grid-cols-2
-         lg:grid-cols-4 gap-4 rounded-lg shadow border p-8 bg-white"
+          className="grid grid-cols-1 md:grid-cols-2
+         lg:grid-cols-4 gap-4 rounded-lg shadow p-8 bg-white"
         >
           {data.map((each) =>
             each.title

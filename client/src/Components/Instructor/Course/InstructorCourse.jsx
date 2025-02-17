@@ -5,12 +5,14 @@ import { PlusOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useCustomMessage } from "../../Common/CustomMessage";
+import { GET, POST } from "../../ApiFunction/ApiFunction";
 
 const InstructorCourse = () => {
   const [coursedata, setCoursedata] = useState([]);
+  const [modalData, setModalData] = useState([]);
   const showMessage = useCustomMessage();
   const navigate = useNavigate();
-
+  console.log(modalData);
   const token = sessionStorage.getItem("token");
 
   const handleaddcourse = () => {
@@ -21,30 +23,31 @@ const InstructorCourse = () => {
   }, []);
 
   const getData = async () => {
-    const token = sessionStorage.getItem("token");
-    const result = await axios.get("http://localhost:3000/getinstcourse", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const result = await GET(
+      `${process.env.REACT_APP_BACKEND_URL}/getinstcourse`
+    );
 
-    if (result.data) {
-      setCoursedata(result.data);
+    if (result) {
+      setCoursedata(result);
     } else {
       setCoursedata([]);
     }
   };
   const deleteData = async (params) => {
-    const { _id } = params;
+    const { _id, courseName } = params;
+    const url = `${process.env.REACT_APP_BACKEND_URL}/request`;
     try {
-      await axios.delete(`http://localhost:3000/deletecourse/${_id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      const res = await POST(url, {
+        courseid: _id,
+        coursename: courseName,
       });
+      if (res.status === 200) {
+        showMessage("success", res.data.message);
+      } else {
+        showMessage("error", res.data.message);
+      }
       getData();
     } catch (error) {
-      console.error("Error deleting course:", error);
       showMessage("error", "Failed to delete course. Please try again.");
     }
   };
@@ -68,6 +71,7 @@ const InstructorCourse = () => {
       </div>
       <CustomTable
         data={coursedata}
+        rowClick={(e) => setModalData(e)}
         deleteFunction={(paeams) => deleteData(paeams)}
         editFunction={(paeams) => editData(paeams)}
       />

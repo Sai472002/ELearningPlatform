@@ -9,61 +9,71 @@ function AdminInstructor() {
   const [insdata, setInsData] = useState([]);
   const [active, setActive] = useState(5);
 
-  const [filterOption,setFilterOption] = useState([
-    { name: "Technology",count:0, color: "#0ea5e9" },
-    { name: "Business",count:0, color: "#6366f1" },
-    { name: "Design",count:0, color: "#8b5cf6" },
-    { name: "Programming",count:0, color: "#f43f5e" },
-    { name: "Personal Development",count:0, color: "#eab308" },
-    { name: "View All",count:0, color: "#334155" },
-  ])
-
-
+  const [filterOption, setFilterOption] = useState([
+    { name: "Technology", count: 0, color: "#0ea5e9" },
+    { name: "Business", count: 0, color: "#6366f1" },
+    { name: "Design", count: 0, color: "#8b5cf6" },
+    { name: "Programming", count: 0, color: "#f43f5e" },
+    { name: "Personal Development", count: 0, color: "#eab308" },
+    { name: "View All", count: 0, color: "#334155" },
+  ]);
+  const url = process.env.REACT_APP_BACKEND_URL
   const getallInstructors = async () => {
-    let response = await GET("http://localhost:3000/getallinsdata");
+    let response = await GET(`${url}/getallinsdata`);
     setInsData(response.data);
-    
   };
-
 
   const cancel = (e) => {
     console.log(e);
     message.error("Click on No");
   };
 
-  
   const filteredData = useMemo(() => {
     let filter = null;
     if (active === 0) {
-      return filter = insdata.filter((v) => v.expertise === "Technology");
+      return (filter = insdata.filter((v) => v.expertise === "Technology"));
     } else if (active === 1) {
-      return filter = insdata.filter((v) => v.expertise === "Business");
+      return (filter = insdata.filter((v) => v.expertise === "Business"));
     } else if (active === 2) {
-      return filter = insdata.filter((v) => v.expertise === "Design");
+      return (filter = insdata.filter((v) => v.expertise === "Design"));
     } else if (active === 3) {
-      return filter = insdata.filter((v) => v.expertise === "Programming");
+      return (filter = insdata.filter((v) => v.expertise === "Programming"));
     } else if (active === 4) {
-      return filter = insdata.filter((v) => v.expertise === "Personal Development");
+      return (filter = insdata.filter(
+        (v) => v.expertise === "Personal Development"
+      ));
     } else {
-      return filter = insdata;
+      return (filter = insdata);
     }
-  }, [active, insdata,filterOption]);
-  
+  }, [active, insdata, filterOption]);
+
+  const handleChange = (e) => {};
+
   useEffect(() => {
     // Calculate counts based on `insdata` whenever `insdata` or `active` changes
     const updatedFilterOption = [...filterOption]; // Copy the filterOption array
-  
-    updatedFilterOption[0].count = insdata.filter((v) => v.expertise === "Technology").length;
-    updatedFilterOption[1].count = insdata.filter((v) => v.expertise === "Business").length;
-    updatedFilterOption[2].count = insdata.filter((v) => v.expertise === "Design").length;
-    updatedFilterOption[3].count = insdata.filter((v) => v.expertise === "Programming").length;
-    updatedFilterOption[4].count = insdata.filter((v) => v.expertise === "Personal Development").length;
+
+    updatedFilterOption[0].count = insdata.filter(
+      (v) => v.expertise === "Technology"
+    ).length;
+    updatedFilterOption[1].count = insdata.filter(
+      (v) => v.expertise === "Business"
+    ).length;
+    updatedFilterOption[2].count = insdata.filter(
+      (v) => v.expertise === "Design"
+    ).length;
+    updatedFilterOption[3].count = insdata.filter(
+      (v) => v.expertise === "Programming"
+    ).length;
+    updatedFilterOption[4].count = insdata.filter(
+      (v) => v.expertise === "Personal Development"
+    ).length;
     updatedFilterOption[5].count = insdata.length;
-  
+
     setFilterOption(updatedFilterOption); // Update the state with the new counts
   }, [insdata]); // Only re-run this effect when `insdata` changes
 
-  console.log(filteredData)
+  console.log(filteredData);
   const columns = [
     {
       title: <span className="text-base font-semibold">Name</span>,
@@ -76,7 +86,7 @@ function AdminInstructor() {
       title: <span className="text-base font-semibold">Age</span>,
       dataIndex: "age",
       key: "age",
-      render:(text) =>text?text:"---"
+      render: (text) => (text ? text : "---"),
     },
     {
       title: <span className="text-base font-semibold">Expertise</span>,
@@ -87,7 +97,7 @@ function AdminInstructor() {
 
   const deleteInstructor = async (userId) => {
     console.log(userId);
-    const response = await DELETE("http://localhost:3000/deleteinsdata", {
+    const response = await DELETE(`${url}/deleteinsdata`, {
       userId,
     });
     getallInstructors();
@@ -100,11 +110,19 @@ function AdminInstructor() {
   return (
     <div className="w-full grid gap-8 lg:gap-12 ">
       <div className="flex items-center gap-2">
-      <h1 className="lg:text-lg font-semibold text-gray-700">Instructor Table</h1>
-      <p className="flex items-center justify-center h-6 w-6 border border-Primary text-xs bg-Primary/10 text-Primary rounded-full">{insdata.length}</p>
+        <h1 className="lg:text-lg font-semibold text-gray-700">
+          Instructor Table
+        </h1>
+        <p className="flex items-center justify-center h-6 w-6 border border-Primary text-xs bg-Primary/10 text-Primary rounded-full">
+          {insdata.length}
+        </p>
       </div>
       <div className="flex flex-row-reverse justify-end items-center flex-wrap gap-4">
-        <CustomInput containerClassName="ml-auto"/>
+        <CustomInput
+          containerClassName="ml-auto"
+          placeholder="Search by name"
+          onChange={handleChange}
+        />
         {filterOption.map((v, i) => (
           <button
             key={i}
@@ -120,7 +138,11 @@ function AdminInstructor() {
           </button>
         ))}
       </div>
-      <CustomTable columns={columns} data={filteredData} deleteFunction={(params) => deleteInstructor(params.userId)}/>
+      <CustomTable
+        columns={columns}
+        data={filteredData}
+        deleteFunction={(params) => deleteInstructor(params.userId)}
+      />
     </div>
   );
 }

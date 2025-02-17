@@ -14,7 +14,7 @@ const CourseDetails = () => {
   const [temp, setTemp] = useState([]);
 
   const getCourse = async () => {
-    const data = await GET(`http://localhost:3000/getcourse/${_id}`);
+    const data = await GET(`${process.env.REACT_APP_BACKEND_URL}/getcourse/${_id}`);
     setTemp(data);
   };
   console.log(temp);
@@ -91,7 +91,7 @@ const CourseDetails = () => {
                     className="h-full bg-gray-100 w-full mx-auto"
                   >
                     <source
-                      src={`http://localhost:3000${item.videoPath}`}
+                      src={`${process.env.REACT_APP_BACKEND_URL}${item.videoPath}`}
                       type="video/mp4"
                     />
                     Your browser does not support the video tag.

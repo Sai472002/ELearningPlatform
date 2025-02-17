@@ -37,7 +37,7 @@ const verifyEmail = async (req, res) => {
       await admindetails.create(data)
     }
 
-    res.redirect("http://localhost:3001/verify");
+    res.redirect(`${process.env.FRONTEND_URL}/verify`);
   } catch (error) {
     res.status(400).json({ error: "Invalid or expired token" });
   }

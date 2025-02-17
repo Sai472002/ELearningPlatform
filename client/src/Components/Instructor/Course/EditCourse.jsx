@@ -81,7 +81,7 @@ function EditCourse() {
     { label: "Duration", placeholder: "Enter duration", key: "duration" },
   ];
 
-  const baseurl = "http://localhost:3000";
+  const baseurl = `${process.env.REACT_APP_BACKEND_URL}`;
   console.log("rating", editdata.imagePath);
 
   const navigate = useNavigate();
@@ -174,7 +174,7 @@ function EditCourse() {
 
     try {
       const result = await PUTFILE(
-        `http://localhost:3000/editcourse/${_id}`,
+        `${process.env.REACT_APP_BACKEND_URL}/editcourse/${_id}`,
         formData
       );
 

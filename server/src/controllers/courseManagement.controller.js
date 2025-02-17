@@ -2,15 +2,15 @@ const { log } = require("console");
 const courseDetails = require("../models/course.model");
 const instructorDetails = require("../models/instructorDetails.model");
 const fs = require("fs");
-
+const Request = require("../models/Request.model");
 
 const addCourse = async (req, res) => {
   try {
     const instructorId = req.userId;
     const insdata = await instructorDetails.findOne({ userId: instructorId });
     // console.log(insdata);
-    const instructorName = insdata.name;
-    
+    const instructorName = insdata.username;
+
     const imagefile = req.files["image"] ? req.files["image"][0] : null;
     const videofile = req.files["video"] ? req.files["video"][0] : null;
     const data = {
@@ -19,15 +19,15 @@ const addCourse = async (req, res) => {
       instructorName,
     };
     if (imagefile) {
-      data.imagePath = `/upload/${imagefile.filename}`,
-        data.imageName = imagefile.filename
+      (data.imagePath = `/upload/${imagefile.filename}`),
+        (data.imageName = imagefile.filename);
     }
     if (videofile) {
-      data.videoPath = `/upload/${videofile.filename}`,
-        data.videoName = videofile.filename
+      (data.videoPath = `/upload/${videofile.filename}`),
+        (data.videoName = videofile.filename);
     }
-    
-    const data1 = await courseDetails.create(data)
+
+    const data1 = await courseDetails.create(data);
     res.json({
       data,
       message: "New Course Added Successfully",
@@ -37,34 +37,30 @@ const addCourse = async (req, res) => {
   }
 };
 
-
-
 const editCourse = async (req, res) => {
   try {
     const { _id } = req.params;
     const imagefile = req.files["image"] ? req.files["image"][0] : null;
     const videofile = req.files["video"] ? req.files["video"][0] : null;
-    
+
     const oldData = await courseDetails.findById(_id);
     if (!oldData) {
       return res.status(404).json({ messge: "data not found" });
     }
     const newdata = {
       ...req.body,
-    }
+    };
 
     if (imagefile && oldData.imageName) {
-    
-        fs.unlinkSync(`src/public/coursefiles/${oldData.imageName}`);
-        newdata.imagePath = `/upload/${imagefile.filename}`,
-        newdata.imageName = imagefile.filename    
+      fs.unlinkSync(`src/public/coursefiles/${oldData.imageName}`);
+      (newdata.imagePath = `/upload/${imagefile.filename}`),
+        (newdata.imageName = imagefile.filename);
     }
 
     if (videofile && oldData.videoName) {
-      
-        fs.unlinkSync(`src/public/coursefiles/${oldData.videoName}`);
-        newdata.videoPath = `/upload/${videofile.filename}`,
-        newdata.videoName = videofile.filename
+      fs.unlinkSync(`src/public/coursefiles/${oldData.videoName}`);
+      (newdata.videoPath = `/upload/${videofile.filename}`),
+        (newdata.videoName = videofile.filename);
     }
 
     // console.log("success");
@@ -84,9 +80,6 @@ const editCourse = async (req, res) => {
   }
 };
 
-
-
-
 const getCoursebyId = async (req, res) => {
   try {
     const instructorId = req.userId;
@@ -101,8 +94,6 @@ const getCoursebyId = async (req, res) => {
   }
 };
 
-
-
 const getAllCourse = async (req, res) => {
   try {
     const data = await courseDetails.find();
@@ -110,19 +101,17 @@ const getAllCourse = async (req, res) => {
       return res.status(403).json({ message: "no data found" });
     }
     // console.log(data);
-    
+
     res.json(data);
   } catch (error) {
     res.json(error.message);
   }
 };
 
-
-
 const getCourse = async (req, res) => {
   try {
     const { _id } = req.params;
-    const data = await courseDetails.findOne({_id: _id });
+    const data = await courseDetails.findOne({ _id: _id });
     console.log(data);
 
     if (!data) {
@@ -137,21 +126,22 @@ const getCourse = async (req, res) => {
 const deleteCourse = async (req, res) => {
   try {
     const { _id } = req.params;
-    const data = await courseDetails.findById({ _id });
-    // console.log(data);
-
+    var data = await courseDetails.findById(_id);
+    if (!data) {
+      return res.status(404).json({ message: "Id doesnt match" });
+    }
     const data1 = await courseDetails.findByIdAndDelete(_id);
-    res.json({
-      message: "course deleted successfully",
-    });
+
     if (data.imageName && data.videoName) {
       fs.unlinkSync(`src/public/coursefiles/${data.imageName}`);
       fs.unlinkSync(`src/public/coursefiles/${data.videoName}`);
-    } 
+    }
+    res.json({
+      message: "course deleted successfully",
+    });
   } catch (error) {
     res.json(error.message);
   }
-
 };
 module.exports = {
   addCourse,

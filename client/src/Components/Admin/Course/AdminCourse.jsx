@@ -19,6 +19,7 @@ const AdminCourse = () => {
     { name: "Personal Development", color: "#eab308" },
     { name: "View All", color: "#334155" },
   ];
+  const url = process.env.REACT_APP_BACKEND_URL
 
   const token = sessionStorage.getItem("token");
 
@@ -31,7 +32,7 @@ const AdminCourse = () => {
 
   const getData = async () => {
     const token = sessionStorage.getItem("token");
-    const result = await axios.get("http://localhost:3000/getallcourse", {
+    const result = await axios.get(`${url}/getallcourse`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -47,7 +48,7 @@ const AdminCourse = () => {
   const deleteData = async (params) => {
     const { _id } = params;
     try {
-      await axios.delete(`http://localhost:3000/deletecourse/${_id}`, {
+      await axios.delete(`${url}/deletecourse/${_id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
