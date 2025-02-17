@@ -22,6 +22,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/upload",express.static("src/public/coursefiles/"))
 app.use("/uploadimage",express.static("src/public/profilephotos/"))
 Connection()
+
+app.get("/", (req, res) => {
+    res.send("Welcome to the E-Learning Backend API!");
+  });
 app.use(router)
 app.use(insrouter)
 app.use(filerouter)
@@ -30,10 +34,6 @@ app.use(courserouter)
 app.use(paymentrouter)
 app.use(adminroute)
 app.use(requestrouter)
-
-app.get("/", (req, res) => {
-    res.send("Welcome to the E-Learning Backend API!");
-  });
   
 
 app.listen(3000, () => {
