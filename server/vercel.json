@@ -15,8 +15,8 @@
   "functions": {
     "api/**/*.js": {
       "maxDuration": 60, 
-      "memory": 1024,     
-      "maxRequestSize": "200mb"  
+      "memory": 1024
+
     }
   }
 }
