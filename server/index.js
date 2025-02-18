@@ -21,6 +21,10 @@ app.use(cors('*'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 Connection()
+
+app.get("/",(req,res)=>{
+    res.send("Welcome to E-Learning Platform")
+})
 app.use(router)
 app.use(profilepicturerouter)
 app.use(courserouter)
