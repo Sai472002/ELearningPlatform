@@ -30,7 +30,7 @@ const CustomTable = ({
           <img
             src={
               record.imagePath
-                ? `http://localhost:3000${record.imagePath}`
+                ? `${record.imagePath}`
                 : "default-image.jpg"
             }
             alt="Course"

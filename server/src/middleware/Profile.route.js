@@ -15,7 +15,7 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: "profilephotos",
-    allowed_formats: ["jpg", "png", "jpeg"],
+    allowed_formats: ["jpg", "png", "jpeg","avif"],
   },
 });
 
@@ -28,6 +28,8 @@ router.post("/uploadimage", uploadImage, async (req, res) => {
   try {
     const imageFile = req.file;
     const userId = req.userId;
+    console.log(imageFile);
+    
 
     if (!imageFile) {
       return res.status(400).json({ message: "No image file provided" });

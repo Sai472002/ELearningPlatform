@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { POSTFILE } from "../ApiFunction/ApiFunction";
 
 const CustomAvatar = ({ name, imagepath }) => {
-  const imageurl = `${process.env.REACT_APP_BACKEND_URL}${imagepath}`
+  const imageurl = `${imagepath}`
   console.log(imageurl);
   
   const [image, setImage] = useState([]);
@@ -29,7 +29,7 @@ const CustomAvatar = ({ name, imagepath }) => {
     formData.append("profilepicture", file);
 
     if (file) {
-      const response = await POSTFILE(`${process.env.REACT_APP_BACKEND_URL}`, formData);
+      const response = await POSTFILE(`${process.env.REACT_APP_BACKEND_URL}/uploadimage`, formData);
       // Create a local URL of the selected file and update image state
       
     }

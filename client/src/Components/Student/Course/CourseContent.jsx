@@ -118,7 +118,7 @@ const CourseDetails = () => {
                   className="h-full bg-gray-100 w-full mx-auto"
                 >
                   <source
-                    src={`${process.env.REACT_APP_BACKEND_URL}${item.videoPath}`}
+                    src={`${item.videoPath}`}
                     type="video/mp4"
                   />
                   Your browser does not support the video tag.

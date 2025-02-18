@@ -1,49 +1,64 @@
 const courseDetails = require("../models/course.model");
 const instructorDetails = require("../models/instructorDetails.model");
 const Request = require("../models/Request.model");
-const cloudinary = require("../config/Cloudinary"); // Make sure you have a cloudinary config
-const fs = require("fs"); // Only needed if you still do local file ops (likely remove now)
+const cloudinary = require("../config/Cloudinary");
+const fs = require("fs"); 
 
-// CREATE or ADD a new Course
-// CREATE or ADD a new Course
+const uploadToCloudinary = (fileBuffer, folder, resourceType) => {
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      {
+        folder: folder,
+        resource_type: resourceType,
+      },
+      (error, result) => {
+        if (error) reject(error);
+        resolve(result);
+      }
+    );
+
+
+    uploadStream.end(fileBuffer);
+  });
+};
+
 const addCourse = async (req, res) => {
   try {
     const instructorId = req.userId;
     const insdata = await instructorDetails.findOne({ userId: instructorId });
     const instructorName = insdata.username;
 
-    // Retrieve uploaded files (if any)
-    const imageFile = req.files["image"] ? req.files["image"][0] : null;
-    const videoFile = req.files["video"] ? req.files["video"][0] : null;
-
-    // Prepare data for the new course
+  
     const data = {
       ...req.body,
       instructorId,
       instructorName,
     };
 
-    // If image was uploaded, upload to Cloudinary and store the URL and public ID
+
+    const imageFile = req.files["image"] ? req.files["image"][0] : null;
+    const videoFile = req.files["video"] ? req.files["video"][0] : null;
+  
+    
     if (imageFile) {
-      const uploadedImage = await cloudinary.uploader.upload(imageFile.path, {
-        folder: 'coursefiles/images', // Store image under coursefiles/images folder in Cloudinary
-        resource_type: 'auto', // auto-detects file type (image/video)
-      });
-      data.imagePath = uploadedImage.secure_url; // Store the Cloudinary URL
-      data.imageName = uploadedImage.public_id; // Store public ID for future deletions
+      
+      const imageResult = await uploadToCloudinary(imageFile.buffer, "coursefiles/images", "image");
+
+
+      data.imagePath = imageResult.secure_url; 
+      data.imageName = imageResult.public_id;  
     }
 
-    // If video was uploaded, upload to Cloudinary and store the URL and public ID
     if (videoFile) {
-      const uploadedVideo = await cloudinary.uploader.upload(videoFile.path, {
-        folder: 'coursefiles/videos', // Store video under coursefiles/videos folder
-        resource_type: 'auto',
-      });
-      data.videoPath = uploadedVideo.secure_url; // Store the Cloudinary URL
-      data.videoName = uploadedVideo.public_id; // Store public ID for future deletions
+
+      const videoResult = await uploadToCloudinary(videoFile.buffer, "coursefiles/videos", "video");
+
+  
+      data.videoPath = videoResult.secure_url; 
+      data.videoName = videoResult.public_id;  
     }
 
-    // Create and save the course in DB
+
     const newCourse = await courseDetails.create(data);
 
     res.json({
@@ -51,76 +66,86 @@ const addCourse = async (req, res) => {
       message: "New Course Added Successfully",
     });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("Error occurred during course addition:", error);
+    res.status(500).json({ message: error.message });  
   }
 };
 
 
-// UPDATE or EDIT an existing Course
+
+
+
+
+
 // UPDATE or EDIT an existing Course
 const editCourse = async (req, res) => {
   try {
     const { _id } = req.params;
 
-    // Retrieve new files (if any)
+    
+
     const imageFile = req.files["image"] ? req.files["image"][0] : null;
     const videoFile = req.files["video"] ? req.files["video"][0] : null;
+    
 
-    // Fetch old course data
+
     const oldData = await courseDetails.findById(_id);
     if (!oldData) {
       return res.status(404).json({ message: "Course not found" });
     }
 
-    // Prepare updated data
+
     const newData = {
       ...req.body,
     };
 
-    // If a new image is uploaded, remove the old one from Cloudinary
     if (imageFile) {
+   
       if (oldData.imageName) {
-        // Remove old image from Cloudinary
-        await cloudinary.uploader.destroy(oldData.imageName, { resource_type: 'auto' });
+        await cloudinary.uploader.destroy(oldData.imageName, { resource_type: 'image' });
       }
-      const uploadedImage = await cloudinary.uploader.upload(imageFile.path, {
-        folder: 'coursefiles/images',
-        resource_type: 'auto',
-      });
-      newData.imagePath = uploadedImage.secure_url; // Cloudinary URL
-      newData.imageName = uploadedImage.public_id; // Cloudinary public ID
+
+
+
+      const imageResult = await uploadToCloudinary(imageFile.buffer,'coursefiles/images',"image");
+      newData.imagePath = imageResult.secure_url;  
+      newData.imageName = imageResult.public_id;  
     }
 
-    // If a new video is uploaded, remove the old one from Cloudinary
+
     if (videoFile) {
+
       if (oldData.videoName) {
-        // Remove old video from Cloudinary
-        await cloudinary.uploader.destroy(oldData.videoName, { resource_type: 'auto' });
+        await cloudinary.uploader.destroy(oldData.videoName, { resource_type: 'video' });
       }
-      const uploadedVideo = await cloudinary.uploader.upload(videoFile.path, {
-        folder: 'coursefiles/videos',
-        resource_type: 'auto',
-      });
-      newData.videoPath = uploadedVideo.secure_url; // Cloudinary URL
-      newData.videoName = uploadedVideo.public_id; // Cloudinary public ID
+
+      
+
+      const videoResult = await uploadToCloudinary(videoFile.buffer,'coursefiles/videos',"video");
+      newData.videoPath = videoResult.secure_url;  
+      newData.videoName = videoResult.public_id;  
     }
 
-    // Update the course in DB
-    const updatedData = await courseDetails.findOneAndUpdate({ _id }, newData, {
+
+    const updatedData = await courseDetails.findByIdAndUpdate(_id, newData, {
       new: true,
     });
 
     if (!updatedData) {
       return res.status(404).json({ message: "No data found" });
     }
+
     res.json({
       updatedData,
-      message: "Course edited Successfully",
+      message: "Course edited successfully",
     });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json(error.message);
   }
 };
+
+
+
 
 // GET all courses by Instructor
 const getCoursebyId = async (req, res) => {

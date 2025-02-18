@@ -82,7 +82,7 @@ function EditCourse() {
   ];
 
   const baseurl = `${process.env.REACT_APP_BACKEND_URL}`;
-  console.log("rating", editdata.imagePath);
+  // console.log("rating", editdata.imagePath);
 
   const navigate = useNavigate();
   let formData = new FormData();
@@ -173,6 +173,9 @@ function EditCourse() {
     const _id = data._id;
 
     try {
+      console.log("FormData before submission:", Object.fromEntries(formData.entries()));
+
+      
       const result = await PUTFILE(
         `${process.env.REACT_APP_BACKEND_URL}/editcourse/${_id}`,
         formData

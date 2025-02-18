@@ -12,28 +12,24 @@ const requestrouter = require("./src/routes/request.route")
 const profilepicturerouter = require("./src/middleware/Profile.route")
 const cors = require("cors")
 
-app.use(cors({
-    origin: process.env.FRONTEND_URL,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true, 
-  }));
+// app.use(cors({
+//     origin: process.env.FRONTEND_URL,
+//     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+//     credentials: true, 
+//   }));
+app.use(cors('*'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
-app.use("/upload",express.static("src/public/coursefiles/"))
-app.use("/uploadimage",express.static("src/public/profilephotos/"))
 Connection()
-
-app.get("/", (req, res) => {
-    res.send("Welcome to the E-Learning Backend API!");
-  });
 app.use(router)
-app.use(insrouter)
-app.use(filerouter)
 app.use(profilepicturerouter)
 app.use(courserouter)
 app.use(paymentrouter)
 app.use(adminroute)
 app.use(requestrouter)
+app.use(insrouter)
+app.use(filerouter)
+
   
 
 app.listen(3000, () => {

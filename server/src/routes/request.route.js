@@ -58,8 +58,8 @@ router.delete("/deleterequest/:courseid/:reqid", async(req,res)=>{
         message: "course deleted successfully",
       });
       if (data.imageName && data.videoName) {
-        fs.unlinkSync(`src/public/coursefiles/${data.imageName}`);
-        fs.unlinkSync(`src/public/coursefiles/${data.videoName}`);
+        await cloudinary.uploader.destroy(data.videoName, { resource_type: 'auto' });
+        await cloudinary.uploader.destroy(data.imageName, { resource_type: 'auto' });
       }
       const data2 = await Request.findOne({ courseid });
       data2.status = "Approved";
