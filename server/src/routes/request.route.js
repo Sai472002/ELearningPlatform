@@ -5,6 +5,8 @@ const courseDetails = require("../models/course.model")
 const router = express.Router();
 const { format } = require("date-fns");
 const { verifyToken } = require("../middleware/authToken");
+const { log } = require("console");
+const cloudinary = require("../config/Cloudinary");
 
 
 router.use(verifyToken)
@@ -53,17 +55,18 @@ router.delete("/deleterequest/:courseid/:reqid", async(req,res)=>{
       if (!data) {
         return res.status(404).json({ message: "Id doesnt match" });
       }
-      const data1 = await courseDetails.findByIdAndDelete({_id:courseid});
-      res.json({
-        message: "course deleted successfully",
-      });
+      
       if (data.imageName && data.videoName) {
-        await cloudinary.uploader.destroy(data.videoName, { resource_type: 'auto' });
-        await cloudinary.uploader.destroy(data.imageName, { resource_type: 'auto' });
+        await cloudinary.uploader.destroy(data.videoName, { resource_type: 'video' });
+        await cloudinary.uploader.destroy(data.imageName, { resource_type: 'image' });
       }
+      log("files deleted")
+      const data1 = await courseDetails.findByIdAndDelete({_id:courseid});
       const data2 = await Request.findOne({ courseid });
       data2.status = "Approved";
+      log("status changed")
       await data2.save();
+      res.json({ message: "Course Deleted" });  
     } else {
       const data2 = await Request.findOne({ courseid});
       data2.status = "Rejected";
@@ -71,7 +74,7 @@ router.delete("/deleterequest/:courseid/:reqid", async(req,res)=>{
       res.json({message:"Course request Rejected"})
     }
   } catch (error) {
-    res.json(error.message);
+    res.json({message:error.message});
   }
 });
 module.exports = router;
