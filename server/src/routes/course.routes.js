@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { verifyToken } = require("../middleware/authToken");
 const courseCtrl = require("../controllers/courseManagement.controller");
-router.use(verifyToken); // Middleware to verify token
+
 
 router.get("/getinstcourse",verifyToken, courseCtrl.getCoursebyId); // Gets Course created by Instructor
 router.get("/getallcourse",courseCtrl.getAllCourse); // Gets all Courses
