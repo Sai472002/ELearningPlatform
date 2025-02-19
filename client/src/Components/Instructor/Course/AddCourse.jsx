@@ -111,7 +111,7 @@ function AddCourse() {
         (key) => row[key] && row[key].trim() !== "" // Ensure field is not empty or just spaces
       );
     });
-  
+
     if (!allRowsValid) {
       return showMessage("info", "Please enter all content fields.");
     }
@@ -120,10 +120,10 @@ function AddCourse() {
     } else if (video === null) {
       return showMessage("info", "video is required");
     }
-  
+    setLoading(true);
     const token = sessionStorage.getItem("token");
     let formData = new FormData();
-  
+
     // Append normal fields to formData
     Object.keys(courseData).forEach((key) => {
       if (key === "rows") {
@@ -139,21 +139,24 @@ function AddCourse() {
         formData.append(key, courseData[key]);
       }
     });
-  
+
     // Append files (image and video) to formData
     if (image) formData.append("image", image);
     if (video) formData.append("video", video);
-  
+
     try {
       // Log formData before submission
-      console.log("FormData before submission:", Object.fromEntries(formData.entries()));
-      
+      console.log(
+        "FormData before submission:",
+        Object.fromEntries(formData.entries())
+      );
+
       const response = await POSTFILE(
-        `${process.env.REACT_APP_BACKEND_URL}/addcourse`, 
-        formData, 
+        `${process.env.REACT_APP_BACKEND_URL}/addcourse`,
+        formData,
         token
       );
-      
+
       if (response.status === 200) {
         setLoading(false);
         showMessage("success", "Course added successfully");
@@ -167,7 +170,6 @@ function AddCourse() {
       console.error("Error uploading course", error);
     }
   };
-  
 
   const props = {
     image: {
@@ -406,7 +408,8 @@ function AddCourse() {
           <CustomButton
             title={v === "submit" ? "Submit" : "Cancel"}
             onClick={() => (v === "submit" ? handleSubmit() : navigate(-1))}
-            loading={loading}
+            loading={v === "submit" && loading}
+            disabled={v === "Cancel" && loading}
             variant="default"
             className={`py-5 font-bold tracking-wider w-fit text-white capitalize ${
               v === "submit" ? "bg-Primary" : "bg-gray-700"
