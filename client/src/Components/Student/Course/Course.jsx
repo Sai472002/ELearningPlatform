@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Filter from "./Filter";
 import CourseCards from "./CourseCards";
-import { GET } from "../../ApiFunction/ApiFunction";
+import { GET, GETCOURSE } from "../../ApiFunction/ApiFunction";
 
-const Course = ({my=false}) => {
+const Course = ({ my = false }) => {
   const [coursedata, setCoursedata] = useState([]);
   const userId = sessionStorage.getItem("id");
   const [myCourse, setMyCourse] = useState([]);
@@ -16,10 +16,14 @@ const Course = ({my=false}) => {
     getData();
   }, []);
   const getData = async () => {
-    const result = await GET(`${process.env.REACT_APP_BACKEND_URL}/getallcourse`);
+    const result = await GETCOURSE(
+      `${process.env.REACT_APP_BACKEND_URL}/getallcourse`
+    );
     if (result) {
-      setCoursedata(result.filter((course) =>!course.boughtBy.includes(userId)));
-      setMyCourse(result.filter((course) =>course.boughtBy.includes(userId)))
+      setCoursedata(
+        result.filter((course) => !course.boughtBy.includes(userId))
+      );
+      setMyCourse(result.filter((course) => course.boughtBy.includes(userId)));
     } else {
       setCoursedata([]);
     }
@@ -31,7 +35,7 @@ const Course = ({my=false}) => {
       const matchesTitle = course.courseName
         .toLowerCase()
         .includes(filterText.title.toLowerCase());
-        
+
       let matchesPrice = true;
       switch (filterText.price) {
         case 0:
@@ -40,46 +44,48 @@ const Course = ({my=false}) => {
         case 1:
           matchesPrice = course.price >= 800 && course.price <= 1000;
           break;
-          case 2:
-            matchesPrice = course.price > 1000;
+        case 2:
+          matchesPrice = course.price > 1000;
           break;
-          case 3:
+        case 3:
           matchesPrice = course.price === 0;
           break;
-          default:
-            matchesPrice = true;
-          }
-          
-          let matchesRating = true;
-          switch (filterText.rate) {
-            case 4:
-              matchesRating = parseInt(course.rating) <= 4;
-              break;
-              case 5:
-                matchesRating = parseInt(course.rating) > 4;
-                break;
-                default:
-                  matchesRating = true;
-                }
-                
-                return matchesTitle && matchesPrice && matchesRating;
-              });
-            }, [coursedata, filterText]);
-            
-  const content = !my ? [
-    {
-      id: 1,
-      title: "My Course",
-      content:myCourse,
-    },
-    { id: 2, title: "All Course", content: filteredData },
-  ]:[
-    {
-      id: 1,
-      title: "My Course",
-      content:myCourse,
-    },
-  ]
+        default:
+          matchesPrice = true;
+      }
+
+      let matchesRating = true;
+      switch (filterText.rate) {
+        case 4:
+          matchesRating = parseInt(course.rating) <= 4;
+          break;
+        case 5:
+          matchesRating = parseInt(course.rating) > 4;
+          break;
+        default:
+          matchesRating = true;
+      }
+
+      return matchesTitle && matchesPrice && matchesRating;
+    });
+  }, [coursedata, filterText]);
+
+  const content = !my
+    ? [
+        {
+          id: 1,
+          title: "My Course",
+          content: myCourse,
+        },
+        { id: 2, title: "All Course", content: filteredData },
+      ]
+    : [
+        {
+          id: 1,
+          title: "My Course",
+          content: myCourse,
+        },
+      ];
   return (
     <main className="h-[90vh] md:h-fit flex md:flex-row flex-col gap-2 items-start w-full relative bg-gray-50 ">
       <Filter
@@ -90,14 +96,14 @@ const Course = ({my=false}) => {
         setRate={(e) => setFilterText((prev) => ({ ...prev, rate: e }))}
       />
       <div className="grid">
-      {content.map((v) => 
-        <>
-          <h1 className="lg:text-2xl my-4 text-base border-l-8 border-Primary pl-2 font-semibold text-PrimaryDark tracking-widest">
-            {v.title}
-          </h1>
-          <CourseCards coursedata={v.content} />
-        </>
-      )}
+        {content.map((v) => (
+          <>
+            <h1 className="lg:text-2xl my-4 text-base border-l-8 border-Primary pl-2 font-semibold text-PrimaryDark tracking-widest">
+              {v.title}
+            </h1>
+            <CourseCards coursedata={v.content} />
+          </>
+        ))}
       </div>
     </main>
   );

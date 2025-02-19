@@ -49,6 +49,16 @@ export const GET = async (action, params = {}) => {
     console.error(error);
   }
 };
+export const GETCOURSE = async (action, params = {}) => {
+  try {
+    const result = await axios.get(action);
+    if (result.status === 200) {
+      return result.data;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 export const PUT = async (action, params) => {
   try {
