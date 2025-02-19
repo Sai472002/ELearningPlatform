@@ -16,7 +16,7 @@ function MainLayout() {
     try {
       const token = sessionStorage.getItem("token");
       if (token) {
-        const result = await axios.get("http://localhost:3000/getData", {
+        const result = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/getData`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setData(result);
