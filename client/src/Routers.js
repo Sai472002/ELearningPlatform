@@ -26,6 +26,7 @@ import AdminInstructor from "./Components/Admin/Instructor/AdminInstructor";
 import AdminDashboard from "./Components/Admin/AdminDashboard";
 import AdminStudent from "./Components/Admin/Student/AdminStudent";
 import Request from "./Components/Instructor/Request/Request";
+import NotFound from "./Components/Student/Home/PageNotFound";
 
 const Routers = () => {
   return (
@@ -87,6 +88,7 @@ const Routers = () => {
             element={<EditCourse />}
           />
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </main>
   );

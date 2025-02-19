@@ -3,7 +3,7 @@ import { Rate } from "antd";
 import { useNavigate } from "react-router-dom";
 
 const CourseCards = ({ coursedata }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [card, setCard] = useState(null);
   const url = process.env.REACT_APP_FRONTEND_URL;
 

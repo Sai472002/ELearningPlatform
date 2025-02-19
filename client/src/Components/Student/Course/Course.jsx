@@ -72,11 +72,11 @@ const Course = ({ my = false }) => {
 
   const content = !my
     ? [
-        {
-          id: 1,
-          title: "My Course",
-          content: myCourse,
-        },
+        // {
+        //   id: 1,
+        //   title: "My Course",
+        //   content: myCourse,
+        // },
         { id: 2, title: "All Course", content: filteredData },
       ]
     : [
@@ -98,7 +98,9 @@ const Course = ({ my = false }) => {
       <div className="grid">
         {content.map((v) => (
           <>
-            <h1 className="lg:text-2xl my-4 text-base border-l-8 border-Primary pl-2 font-semibold text-PrimaryDark tracking-widest">
+            <h1
+              className={`lg:text-2xl my-4 text-base border-l-8 border-Primary pl-2 font-semibold text-PrimaryDark tracking-widest`}
+            >
               {v.title}
             </h1>
             <CourseCards coursedata={v.content} />

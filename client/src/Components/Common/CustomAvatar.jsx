@@ -3,11 +3,13 @@ import { Avatar } from "antd";
 import React, { useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { POSTFILE } from "../ApiFunction/ApiFunction";
+import { useCustomMessage } from "./CustomMessage";
 
-const CustomAvatar = ({ name, imagepath }) => {
-  const imageurl = `${imagepath}`
+const CustomAvatar = ({ name, imagepath, refresh = () => {} }) => {
+  const showMessage = useCustomMessage();
+  const imageurl = `${imagepath}`;
   console.log(imageurl);
-  
+
   const [image, setImage] = useState([]);
   const [preview, setPreview] = useState(false);
   // Create a ref for the hidden file input
@@ -29,9 +31,13 @@ const CustomAvatar = ({ name, imagepath }) => {
     formData.append("profilepicture", file);
 
     if (file) {
-      const response = await POSTFILE(`${process.env.REACT_APP_BACKEND_URL}/uploadimage`, formData);
+      const response = await POSTFILE(
+        `${process.env.REACT_APP_BACKEND_URL}/uploadimage`,
+        formData
+      );
+      showMessage("success", response.data.message);
+      refresh();
       // Create a local URL of the selected file and update image state
-      
     }
   };
   return (

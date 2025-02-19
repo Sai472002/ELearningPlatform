@@ -43,7 +43,7 @@ const Login = () => {
         sessionStorage.setItem("token", result?.data?.token);
         sessionStorage.setItem("id", result?.data?.userId);
         sessionStorage.setItem("designation", result?.data?.designation);
-        showMessage("success", result?.data?.message);
+        // showMessage("success", result?.data?.message);
         navigate(result?.data?.navigate);
       } else {
         showMessage("error", "Something went wrong");
