@@ -85,7 +85,7 @@ const AdminProfile = () => {
         {adminData.map((v, i) => (
           <div
             key={i}
-            onClick={() => setActive(i)}
+            // onClick={() => setActive(i)}
             className=" bg-gradient-to-r from- md:w-full md:h-[130px] rounded-lg text-xs text-center flex flex-col hover:bg-white hover:shadow ease-in-out transition-all"
           >
             <div className="p-2 text-left">
