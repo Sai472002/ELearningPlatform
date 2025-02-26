@@ -87,7 +87,7 @@ const Request = () => {
 
   return (
     <div className="grid gap-4">
-      <h1 className="lg:text-2xl text-base font-light text-gray-500 tracking-wide">
+      <h1 className="lg:text-lg font-semibold text-gray-700 ">
         Request
       </h1>
       <CustomTable
