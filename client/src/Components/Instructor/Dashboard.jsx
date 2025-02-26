@@ -4,6 +4,7 @@ import {
   DashboardOutlined,
   LogoutOutlined,
   MenuOutlined,
+  SendOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { motion } from "framer-motion";
@@ -46,7 +47,7 @@ const Dashboard = () => {
       id: 3,
       to: "/instructordashboard/instructorrequest",
       title: "My Request",
-      icon: <ContainerOutlined className="mr-2" />,
+      icon: <SendOutlined className="mr-2" />,
     },
   ];
 
