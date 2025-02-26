@@ -83,8 +83,8 @@ const CourseDetails = () => {
     <>
       {temp?.length > 0 &&
         temp?.map((item, index) => (
-          <div className="sm:flex h-full md:h-[90vh] w-full relative pb-2">
-            <div className="sm:w-[25%] bg-white flex gap-4 flex-col pr-4 sticky top-0 left-0">
+          <div className="sm:flex h-full w-full relative">
+            <div className="sm:w-[25%] bg-white flex gap-4 flex-col pr-4">
               <h1 className="lg:text-xl font-semibold pb-2 ">
                 <DoubleLeftOutlined
                   onClick={() => navigate(-1)}
@@ -104,18 +104,13 @@ const CourseDetails = () => {
                 </ol>
               </div>
             </div>
-            <div className=" h-full bg-gray-100 sm:pr-0 sm:pb-0 flex-1 overflow-y-scroll">
+            <div className=" h-full flex-1 overflow-y-scroll bg-gray-100 p-2 rounded-lg">
               <p className="bg-white p-4 text-sm lg:text-base text-Primary">
                 video <VideoCameraOutlined className="ml-2" />
               </p>
               <div className="p-4 gap-1 bg-white relative ">
-                {!item?.boughtBy.includes(id) && (
-                  <div
-                    className={`h-full backdrop-grayscale w-full top-0 left-0 absolute`}
-                  />
-                )}
                 <video
-                  controls={item?.boughtBy.includes(id) ? true : false}
+                  controls={true}
                   muted
                   className="h-full bg-gray-100 w-full mx-auto"
                 >
