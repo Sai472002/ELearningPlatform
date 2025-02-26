@@ -27,6 +27,7 @@ Connection();
 
 app.get("/", (req, res) => {
   res.send("Welcome to E-Learning Platform");
+  
 });
 app.use(courserouter);
 app.use(router);
