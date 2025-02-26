@@ -8,7 +8,7 @@ const ReqSchema = new mongoose.Schema(
     },
     courseid: String,
     coursename: String,
-    coursephoto:String,
+    imagePath:String,
     status: {
       type: String,
       default: "Pending",
