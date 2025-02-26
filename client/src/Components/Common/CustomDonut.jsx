@@ -47,7 +47,7 @@ const CustomDonut = ({
   return (
     <div className="relative">
       <p className="absolute top-[45%] left-[40%] font-medium">
-        Total : <span className="text-Primary">{courseData.length}</span>
+        Total : <span className="text-Primary">{courseData?.length}</span>
       </p>
       <Chart
         type={type}

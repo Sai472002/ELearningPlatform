@@ -15,7 +15,7 @@ const AdminProfile = () => {
   const [courseData, setCourseData] = useState([]);
   const [active, setActive] = useState(0);
   const [adminstats , setAdminstats] = useState({})
-  const courseImg = userData.map((v) => v.imagePath);
+  const courseImg = userData?.map((v) => v.imagePath);
   console.log(courseImg);
   const url = process.env.REACT_APP_BACKEND_URL
   const adminData = [
