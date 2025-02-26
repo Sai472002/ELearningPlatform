@@ -46,18 +46,18 @@ const courses = [
 
 const Course = () => {
   return (
-    <div className="w-[90%] mx-auto ">
-      <div className="md:w-full p-6 ">
+    <div className="w-full md:w-[90%] mx-auto ">
+      <div className="w-full p-2 ">
         <h1 className=" text-2xl md:text-3xl font-semibold mb-8 relative ">
           Popular Courses
         </h1>
 
-        <div className="flex flex-wrap justify-evenly gap-5">
+        <div className=" w-full grid grid-flow-col p-2 lg:flex  justify-evenly gap-5 overflow-scroll">
           {courses.length > 0 ? (
             courses.map((course) => (
               <div
                 key={course.id}
-                className="bg-white flex-col md:w-[280px] shadow-md rounded-lg p-4 transition-transform transform hover:scale-105 hover:shadow-lg hover:bg-blue-50"
+                className="bg-white flex-col border border-black w-[250px] md:w-[280px] border-b-1 rounded-lg p-4 transition-transform transform hover:-translate-y-3 hover:shadow-md"
               >
                 <img
                   src={course.image}
