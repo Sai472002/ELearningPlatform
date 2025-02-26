@@ -90,7 +90,7 @@ const AdminCourse = () => {
   return (
     <div className="grid gap-6">
       <div className="flex items-center justify-between">
-        <h1 className="lg:text-lg font-semibold text-gray-700">All Courses</h1>
+        <h1 className="lg:text-lg font-semibold text-gray-700 flex gap-2 ">All Courses <p className="rounded-full text-sm h-[30px] w-[30px] flex items-center justify-center bg-Primary text-white ">{coursedata.length}</p> </h1>
         <CustomButton
           title="Create new"
           onClick={handleaddcourse}

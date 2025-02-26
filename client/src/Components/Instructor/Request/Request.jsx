@@ -87,8 +87,8 @@ const Request = () => {
 
   return (
     <div className="grid gap-4">
-      <h1 className="lg:text-2xl text-base font-light text-gray-500 tracking-wide">
-        Request
+      <h1 className="lg:text-lg font-semibold text-gray-700 tracking-wide flex gap-2">
+        Requests <p className="rounded-full text-sm h-[30px] w-[30px] flex items-center justify-center bg-Primary text-white ">{request.length}</p>
       </h1>
       <CustomTable
         columns={header}
