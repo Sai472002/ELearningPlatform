@@ -15,9 +15,10 @@ router.post("/request", async (req, res) => {
   const Date1 = format(now, "MMM dd yyyy");
 
   try {
-    const { courseid, coursename } = req.body;
+    const { courseid, coursename,imagepath } = req.body;
     const temp = await Request.findOne({ courseid });
     console.log(temp);
+    const data1 = await courseDetails.findOne({courseid}) 
 
     if (temp && temp.status === "Pending") {
       return res.json({ message: "Course Request already exist" });
@@ -25,6 +26,7 @@ router.post("/request", async (req, res) => {
     const data = {
       courseid,
       coursename,
+      imagePath:data1.imagePath,
       requestat: Date1,
     };
     await Request.create(data);
