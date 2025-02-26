@@ -30,15 +30,15 @@ function Footer() {
             <a>Follow us on </a>
           </p>
           <div className="flex gap-5 md:text-2xl">
-            <div className="transition-all ease-linear duration-1 hover:-translate-y-2 hover:text-blue-500">
+            <div className="transition-all ease-linear duration-1 hover:-translate-y-2 lg:hover:text-blue-500">
               {" "}
               <FacebookFilled />
             </div>
-            <div className="transition-all ease-linear duration-1 hover:-translate-y-2 hover:text-blue-500">
+            <div className="transition-all ease-linear duration-1 hover:-translate-y-2 lg:hover:text-blue-500">
               {" "}
               <TwitterCircleFilled />
             </div>
-            <div className="transition-all ease-linear duration-1 hover:-translate-y-2 hover:text-pink-600">
+            <div className="transition-all ease-linear duration-1 hover:-translate-y-2 lg:hover:text-pink-600">
               {" "}
               <InstagramFilled />
             </div>
