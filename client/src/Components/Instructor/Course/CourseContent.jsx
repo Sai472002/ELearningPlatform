@@ -13,8 +13,7 @@ import axios from "axios";
 
 // Replace with your own Stripe public key
 
-const CourseDetails = ({ data }) => {
-  console.log(data);
+const CourseDetails = () => {
   const { _id } = useParams();
   const navigate = useNavigate();
   const [temp, setTemp] = useState([]);
@@ -84,8 +83,8 @@ const CourseDetails = ({ data }) => {
     <>
       {temp?.length > 0 &&
         temp?.map((item, index) => (
-          <div className="sm:flex h-full md:h-[90vh] w-full border relative">
-            <div className="sm:w-[25%] bg-white border flex gap-4 p-4 flex-col">
+          <div className="sm:flex h-full md:h-[90vh] w-full relative pb-2">
+            <div className="sm:w-[25%] bg-white flex gap-4 flex-col pr-4 sticky top-0 left-0">
               <h1 className="lg:text-xl font-semibold pb-2 ">
                 <DoubleLeftOutlined
                   onClick={() => navigate(-1)}
@@ -106,10 +105,10 @@ const CourseDetails = ({ data }) => {
               </div>
             </div>
             <div className=" h-full bg-gray-100 sm:pr-0 sm:pb-0 flex-1 overflow-y-scroll">
-              <p className="bg-white p-4 m-2 mb-0 text-sm lg:text-base text-Primary">
+              <p className="bg-white p-4 text-sm lg:text-base text-Primary">
                 video <VideoCameraOutlined className="ml-2" />
               </p>
-              <div className="p-4 gap-1 mx-2 bg-white relative ">
+              <div className="p-4 gap-1 bg-white relative ">
                 {!item?.boughtBy.includes(id) && (
                   <div
                     className={`h-full backdrop-grayscale w-full top-0 left-0 absolute`}
@@ -142,26 +141,8 @@ const CourseDetails = ({ data }) => {
                   />
                 )}
                 items={subItems(item, index)}
-                className="bg-white lg:px-4 py-4 mx-2"
+                className="bg-white lg:px-4 py-4"
               />
-              {item?.boughtBy.includes(id) ? (
-                ""
-              ) : (
-                <div className="drop-shadow-lg flex items-center justify-between p-2 bg-gradient-to-r from-white to-transparent backdrop-blur-sm w-full border-t sticky left-0 bottom-0 ">
-                  <p className="font-bold font-Poppins !tracking-wider">
-                    Price
-                  </p>
-                  <p className="mr-auto ml-4 font-medium ">
-                    {item?.price || "free"}
-                  </p>
-                  <CustomButton
-                    title="buy"
-                    color="solid"
-                    className="bg-Primary"
-                    onClick={() => handleBuyClick(item)}
-                  />
-                </div>
-              )}
             </div>
           </div>
         ))}

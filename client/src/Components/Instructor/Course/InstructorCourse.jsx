@@ -3,16 +3,15 @@ import CustomTable from "../../Common/CustomTable";
 import CustomButton from "../../Common/CustomButton";
 import { PlusOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import CourseContent from "./CourseContent";
 import axios from "axios";
 import { useCustomMessage } from "../../Common/CustomMessage";
 import { GET, POST } from "../../ApiFunction/ApiFunction";
 
 const InstructorCourse = () => {
   const [coursedata, setCoursedata] = useState([]);
-  const [modalData, setModalData] = useState([]);
   const showMessage = useCustomMessage();
   const navigate = useNavigate();
-  console.log(modalData);
   const token = sessionStorage.getItem("token");
 
   const handleaddcourse = () => {
@@ -60,7 +59,12 @@ const InstructorCourse = () => {
   return (
     <div className="grid gap-8 lg:gap-12">
       <div className="flex items-center justify-between">
-        <h1 className="lg:text-lg font-semibold text-gray-700 flex gap-2 ">All Courses <p className="rounded-full text-sm h-[30px] w-[30px] flex items-center justify-center bg-Primary text-white ">{coursedata.length}</p></h1>
+        <h1 className="lg:text-lg font-semibold text-gray-700 flex gap-2 ">
+          All Courses{" "}
+          <p className="rounded-full text-sm h-[30px] w-[30px] flex items-center justify-center bg-Primary text-white ">
+            {coursedata.length}
+          </p>
+        </h1>
         <CustomButton
           title="Create new"
           onClick={handleaddcourse}
@@ -71,7 +75,7 @@ const InstructorCourse = () => {
       </div>
       <CustomTable
         data={coursedata}
-        rowClick={(e) => setModalData(e)}
+        rowClick={(i) => navigate(`/instructordashboard/coursedetails/${i}`)}
         deleteFunction={(paeams) => deleteData(paeams)}
         editFunction={(paeams) => editData(paeams)}
       />

@@ -8,12 +8,13 @@ import {
 } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { GET } from "../ApiFunction/ApiFunction";
 import { Modal } from "antd";
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { confirm } = Modal;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [menuId, setMenuId] = useState(0);
@@ -154,7 +155,14 @@ const Dashboard = () => {
             onClick={showConfirm}
           />
         </div>
-        <motion.div className="bg-white md:m-3 mr-0 shadow-lg rounded-lg md:p-4 p-2 overflow-y-auto">
+        <motion.div
+          className={`bg-white md:m-3 mr-0 shadow-lg rounded-lg md:p-4 p-2 ${
+            location.pathname.split("/").slice(0, 3).join("/") ===
+            "/instructordashboard/coursedetails"
+              ? "overflow-hidden"
+              : "overflow-y-auto"
+          }`}
+        >
           <Outlet />
         </motion.div>
       </div>

@@ -27,6 +27,7 @@ import AdminDashboard from "./Components/Admin/AdminDashboard";
 import AdminStudent from "./Components/Admin/Student/AdminStudent";
 import Request from "./Components/Instructor/Request/Request";
 import NotFound from "./Components/Student/Home/PageNotFound";
+import CourseDetails from "./Components/Instructor/Course/CourseContent";
 
 const Routers = () => {
   return (
@@ -62,6 +63,10 @@ const Routers = () => {
           <Route
             path="/instructordashboard/instructorcourse"
             element={<InstructorCourse />}
+          />
+          <Route
+            path="/instructordashboard/coursedetails/:_id"
+            element={<CourseDetails />}
           />
           <Route
             path="/instructordashboard/instructorrequest"

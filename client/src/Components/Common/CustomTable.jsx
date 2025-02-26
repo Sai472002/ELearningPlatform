@@ -9,7 +9,7 @@ import { message, Popconfirm } from "antd";
 const CustomTable = ({
   data = [],
   columns = [],
-  rowClick,
+  rowClick = (i, e) => {},
   viewModal = (data, i) => {},
   approveBtn = false,
   deleteBtn = true,
@@ -17,6 +17,7 @@ const CustomTable = ({
   editFunction = (data) => {},
   editBtn = true,
 }) => {
+  const navigate = useNavigate();
   const [updateId, setUpdateId] = useState(false);
   const [coursedata, setCoursedata] = useState([]);
   const validate = sessionStorage.getItem("designation");
@@ -28,11 +29,7 @@ const CustomTable = ({
       render: (text, record) => (
         <div className="flex flex-col lg:flex-row gap-2 items-center">
           <img
-            src={
-              record.imagePath
-                ? `${record.imagePath}`
-                : "default-image.jpg"
-            }
+            src={record.imagePath ? `${record.imagePath}` : "default-image.jpg"}
             alt="Course"
             className="rounded h-10  object-cover"
           />
@@ -93,6 +90,7 @@ const CustomTable = ({
       title: "Action",
       key: "action",
       align: "center",
+      fixed: "right",
       width: 100,
       render: (_, record) => (
         <div className="flex gap-2 justify-evenly">
@@ -113,6 +111,7 @@ const CustomTable = ({
   ]);
 
   const { action } = columns;
+
   useEffect(() => {
     if (columns.length > 0) {
       validate === "Admin" || action === true
@@ -122,6 +121,7 @@ const CustomTable = ({
               title: "Action",
               key: "action",
               align: "center",
+              fixed: "right",
               width: 100,
               render: (_, record) => (
                 <div className="flex gap-2 justify-evenly">
@@ -167,7 +167,7 @@ const CustomTable = ({
         width: 120,
       }))
     );
-  }, [columns]);
+  }, [data]);
 
   const cancel = (e) => {
     message.error("Click on No");
@@ -183,25 +183,29 @@ const CustomTable = ({
   };
 
   const handleRowClick = (record) => {
-    rowClick(record);
+    const id = record._id;
+    rowClick(id, record);
   };
 
   return (
-    <>
+    <div className="overflow-x-scroll lg:overflow-x-hidden">
       <Table
         bordered
         size="small"
-        className=""
-        // onRow={(record) => ({
-        //   onClick: () => handleRowClick(record),
-        // })}
+        onRow={(record) => ({
+          onClick: () => handleRowClick(record),
+        })}
         columns={defaultColumn}
         dataSource={coursedata}
         pagination={{
           pageSize: 10,
+          position: "bottomRight",
+        }}
+        scroll={{
+          x: "max-content",
         }}
       />
-    </>
+    </div>
   );
 };
 
