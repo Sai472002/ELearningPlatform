@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Rate } from "antd";
 import { useNavigate } from "react-router-dom";
 
-const CourseCards = ({ coursedata }) => {
+const CourseCards = ({ coursedata, my }) => {
   const navigate = useNavigate();
   const [card, setCard] = useState(null);
   const url = process.env.REACT_APP_FRONTEND_URL;
+  console.log(my);
 
   return (
     <div className="h-fit w-full p-2 lg:pt-4 grid gap-2 lg:gap-4 grid-cols-2 md:grid-cols-3 lg:flex lg:flex-wrap transition-all duration-700">
@@ -26,14 +27,16 @@ const CourseCards = ({ coursedata }) => {
             <Rate
               defaultValue={parseInt(v.rating)}
               disabled
-              className="text-xs"
+              className={`text-xs ${my === true ? "ml-0" : "mx-auto"} w-fit`}
             />
-            <div className="w-full text-xs md:text-base flex items-center justify-between mt-4">
-              <p className="font-bold tracking-wider text-gray-500">Price</p>
-              <p className="font-mono text-Primary">
-                {v?.price ? "$" + " " + v?.price : "free"}
-              </p>
-            </div>
+            {!my ? (
+              <div className="w-full text-xs md:text-base flex items-center justify-between mt-4">
+                <p className="font-bold tracking-wider text-gray-500">Price</p>
+                <p className="font-mono text-Primary">
+                  {v?.price ? "$" + " " + v?.price : "free"}
+                </p>
+              </div>
+            ) : null}
           </button>
         ))}
     </div>

@@ -5,31 +5,36 @@ import Course from "./Course";
 
 const MyCourse = ({}) => {
   const userId = sessionStorage.getItem("id");
-    const [coursedata, setCoursedata] = useState([]);
-    const [filterText, setFilterText] = useState([]);
-  
-    useEffect(() => {
-      getData();
-    }, []);
+  const [coursedata, setCoursedata] = useState([]);
+  const [filterText, setFilterText] = useState([]);
 
-    useMemo(()=>{
-      if(userId){
-      const filteredData = coursedata.filter(course => course.boughtBy.includes(userId));
-      setFilterText(filteredData)}
-    },[userId])
+  useEffect(() => {
+    getData();
+  }, []);
 
-    const getData = async () => {
-      const result = await GET(`${process.env.REACT_APP_BACKEND_URL}/getallcourse`);
-      if (result) {
-        setCoursedata(result.filter(course => course.boughtBy.includes(userId)));
-      } else {
-        setCoursedata([]);
-      }
-    };
-    console.log(coursedata,"del");
-  return (
-    <Course my/>
-  );
+  useMemo(() => {
+    if (userId) {
+      const filteredData = coursedata.filter((course) =>
+        course.boughtBy.includes(userId)
+      );
+      setFilterText(filteredData);
+    }
+  }, [userId]);
+
+  const getData = async () => {
+    const result = await GET(
+      `${process.env.REACT_APP_BACKEND_URL}/getallcourse`
+    );
+    if (result) {
+      setCoursedata(
+        result.filter((course) => course.boughtBy.includes(userId))
+      );
+    } else {
+      setCoursedata([]);
+    }
+  };
+  console.log(coursedata, "del");
+  return <Course my={true} />;
 };
 
 export default MyCourse;

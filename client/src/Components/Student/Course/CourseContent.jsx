@@ -33,12 +33,12 @@ const CourseDetails = () => {
   }, []);
 
   const subItems = (item, index) => {
-    return item?.title?.map((title, index) => ({
+    return item?.rows?.map((title, index) => ({
       label: (
         <div className="flex justify-between items-center">
-          <p className="text-Primary font-Poppins ">{title} </p>
+          <p className="text-Primary font-Poppins ">{title?.title} </p>
           <small className="text-gray-500 font-Poppins ">
-            {item?.lectureDuration[index]}
+            {title?.lectureDuration}
           </small>
         </div>
       ),
@@ -46,13 +46,13 @@ const CourseDetails = () => {
         <div className="py-2 sm:px-4 grid">
           <p className="font-medium font-Koulen">Course description</p>
           <p className="p-2 text-gray-500 border min-h-28 rounded-lg mt-2">
-            {item?.description[index]}
+            {title?.description}
           </p>
           <p className="font-medium font-Koulen mt-2">
             What will you learn this section ?
           </p>
           <p className="p-2 text-gray-500 border min-h-28 rounded-lg mt-2">
-            {item?.learn[index]}
+            {title?.learn}
           </p>
         </div>
       ),
@@ -96,12 +96,12 @@ const CourseDetails = () => {
                 {item?.courseName}
               </p>
               <p className="text-xs md:text-sm text-Primary">Requirements</p>
-              <div className="text-xs p-2 min-h-40 ">
-                {item?.title?.map((v) => (
-                  <ol className="list-disc list-inside leading-relaxed">
-                    <li>{v}</li>
-                  </ol>
-                ))}
+              <div className="text-xs md:text-sm p-2 min-h-40 text-gray-600">
+                <ol className="list-inside list-decimal leading-relaxed">
+                  {item?.requirements?.map((v, i) => (
+                    <li key={i}>{v}</li>
+                  ))}
+                </ol>
               </div>
             </div>
             <div className=" h-full bg-gray-100 sm:pr-0 sm:pb-0 flex-1 overflow-y-scroll">

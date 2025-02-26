@@ -103,7 +103,7 @@ const Course = ({ my = false }) => {
             >
               {v.title}
             </h1>
-            <CourseCards coursedata={v.content} />
+            <CourseCards coursedata={v.content} my={my} />
           </>
         ))}
       </div>
