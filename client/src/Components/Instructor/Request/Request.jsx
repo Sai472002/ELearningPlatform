@@ -24,6 +24,16 @@ const Request = () => {
       title: "Course Name",
       dataIndex: "coursename",
       key: "coursename",
+      render: (text, record) => (
+        <div className="flex flex-col lg:flex-row gap-2 items-center">
+          <img
+            src={record.imagePath ? `${record.imagePath}` : "default-image.jpg"}
+            alt="Course"
+            className="rounded h-10  object-cover"
+          />
+          <span className="!text-gray-500">{text ? text : "- - -"}</span>
+        </div>
+      ),
     },
     {
       title: "Description",
