@@ -52,12 +52,12 @@ const Course = () => {
           Popular Courses
         </h1>
 
-        <div className=" w-full grid grid-flow-col p-2 lg:flex  justify-evenly gap-5 overflow-scroll">
+        <div className=" w-full grid grid-flow-col p-2 lg:flex  justify-evenly gap-5 overflow-scroll scrollbar-none ">
           {courses.length > 0 ? (
             courses.map((course) => (
               <div
                 key={course.id}
-                className="bg-white flex-col border border-black w-[250px] md:w-[280px] border-b-1 rounded-lg p-4 transition-transform transform hover:-translate-y-3 hover:shadow-md"
+                className="bg-white flex-col border border-black h-[300px] md:h-fit w-[250px] md:w-[280px] border-b-1 rounded-lg md:p-4 transition-transform transform hover:-translate-y-3 hover:shadow-md"
               >
                 <img
                   src={course.image}
@@ -72,7 +72,7 @@ const Course = () => {
                 </p>
                 <Link
                   to={`/courses/${course.id}`}
-                  className="inline-block mt-4 text-blue-500"
+                  className="inline-block md:mt-4 text-blue-500"
                 >
                   View Details
                 </Link>
