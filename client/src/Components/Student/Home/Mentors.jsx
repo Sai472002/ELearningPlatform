@@ -11,7 +11,7 @@ const Mentors = () => {
     { image: mentorOne, name: "Gopala Krishnan", status: "developer" },
   ];
   return (
-    <div className="w-[90%] m-auto h-fit py-8">
+    <div className="w-[95%] m-auto h-fit py-8">
       <h1 className="text-2xl font-semibold drop-shadow md:text-3xl mb-10">
         Learn Form Industrial Experts
       </h1>

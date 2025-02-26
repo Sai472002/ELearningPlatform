@@ -8,7 +8,7 @@ function Banner() {
 ,image2,image3  ];
 
   return (
-    <div className='mb-20 w-full'>
+    <div className='mb-20 w-full '>
       <Carousel autoplay>
         {bannerdata.map((a, i) => (
           <div>

@@ -26,7 +26,7 @@ const testimonials = [
   ];
   return (
     <div className="bg-gray-100 py-12 ">
-      <div className="w-[90%] mx-auto px-4">
+      <div className="w-[95%] mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-8 md:mb-20">What Our Students Say</h2>
         <div className="flex flex-row flex-wrap justify-evenly gap-8 md:gap-20">
           {testimonials.map((testimonial, index) => (
