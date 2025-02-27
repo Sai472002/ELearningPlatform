@@ -35,19 +35,19 @@ const Dashboard = () => {
       id: 1,
       to: "/instructordashboard",
       title: "Instructor Profile",
-      icon: <UserOutlined className="mr-2" />,
+      icon: <UserOutlined className="mr-2 text-Primary" />,
     },
     {
       id: 2,
       to: "/instructordashboard/instructorcourse",
       title: "Courses",
-      icon: <ContainerOutlined className="mr-2" />,
+      icon: <ContainerOutlined className="mr-2 text-Primary" />,
     },
     {
       id: 3,
       to: "/instructordashboard/instructorrequest",
       title: "My Request",
-      icon: <SendOutlined className="mr-2" />,
+      icon: <SendOutlined className="mr-2 text-Primary" />,
     },
   ];
 

@@ -93,12 +93,24 @@ const CustomTable = ({
       fixed: "right",
       width: 100,
       render: (_, record) => (
-        <div className="flex gap-2 justify-evenly">
-          <CustomButton type="edit" onClick={() => handleEdit(record)} />
+        <div
+          className="flex gap-2 justify-evenly"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <CustomButton
+            type="edit"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleEdit(record);
+            }}
+          />
           <Popconfirm
             title="Raise Delete Request"
             description="Are you sure ?"
-            onConfirm={() => handleDelete(record)}
+            onConfirm={(e) => {
+              e.stopPropagation();
+              handleDelete(record);
+            }}
             onCancel={cancel}
             okText="Yes"
             cancelText="No"
@@ -124,18 +136,27 @@ const CustomTable = ({
               fixed: "right",
               width: 100,
               render: (_, record) => (
-                <div className="flex gap-2 justify-evenly">
+                <div
+                  className="flex gap-2 justify-evenly"
+                  onClick={(e) => e.stopPropagation()}
+                >
                   {editBtn === true && approveBtn === false && (
                     <CustomButton
                       type="edit"
-                      onClick={() => handleEdit(record)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleEdit(record);
+                      }}
                     />
                   )}
                   {deleteBtn === true && approveBtn === false && (
                     <Popconfirm
                       title="Delete the task"
                       description="Are you sure to delete this task?"
-                      onConfirm={() => handleDelete(record)}
+                      onConfirm={(e) => {
+                        e.stopPropagation();
+                        handleDelete(record);
+                      }}
                       onCancel={cancel}
                       okText="Yes"
                       cancelText="No"
@@ -147,11 +168,17 @@ const CustomTable = ({
                     <>
                       <CustomButton
                         type="approve"
-                        onClick={() => viewModal(record, 1)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          viewModal(record, 1);
+                        }}
                       />
                       <CustomButton
                         type="reject"
-                        onClick={() => viewModal(record, 2)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          viewModal(record, 2);
+                        }}
                       />
                     </>
                   )}
@@ -194,6 +221,7 @@ const CustomTable = ({
         size="small"
         onRow={(record) => ({
           onClick: () => handleRowClick(record),
+          className: "cursor-pointer",
         })}
         columns={defaultColumn}
         dataSource={coursedata}

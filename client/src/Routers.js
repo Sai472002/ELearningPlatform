@@ -27,7 +27,8 @@ import AdminDashboard from "./Components/Admin/AdminDashboard";
 import AdminStudent from "./Components/Admin/Student/AdminStudent";
 import Request from "./Components/Instructor/Request/Request";
 import NotFound from "./Components/Student/Home/PageNotFound";
-import CourseDetails from "./Components/Instructor/Course/CourseContent";
+import CourseDetailsInstructor from "./Components/Instructor/Course/CourseContent";
+import CourseDetailsAdmin from "./Components/Admin/Course/CourseContent";
 
 const Routers = () => {
   return (
@@ -66,7 +67,7 @@ const Routers = () => {
           />
           <Route
             path="/instructordashboard/coursedetails/:_id"
-            element={<CourseDetails />}
+            element={<CourseDetailsInstructor />}
           />
           <Route
             path="/instructordashboard/instructorrequest"
@@ -85,6 +86,10 @@ const Routers = () => {
           <Route path="/adminpanel" element={<AdminProfile />} />
           <Route path="/adminpanel/course" element={<AdminCourse />} />
           <Route path="/adminpanel/course/addCourse" element={<AddCourse />} />
+          <Route
+            path="/adminpanel/coursedetails/:_id"
+            element={<CourseDetailsAdmin />}
+          />
           <Route path="/adminpanel/instructor" element={<AdminInstructor />} />
           <Route path="/adminpanel/student" element={<AdminStudent />} />
           <Route path="/adminpanel/request" element={<Request />} />

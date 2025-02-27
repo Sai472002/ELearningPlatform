@@ -4,6 +4,7 @@ import {
   DashboardOutlined,
   LogoutOutlined,
   MenuOutlined,
+  SendOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { motion } from "framer-motion";
@@ -36,31 +37,31 @@ const AdminDashboard = () => {
       id: 1,
       to: "/adminpanel",
       title: "Profile",
-      icon: <UserOutlined className="mr-2" />,
+      icon: <UserOutlined className="mr-2 text-Primary" />,
     },
     {
       id: 2,
       to: "/adminpanel/course",
       title: "Courses",
-      icon: <ContainerOutlined className="mr-2" />,
+      icon: <ContainerOutlined className="mr-2 text-Primary" />,
     },
     {
       id: 3,
       to: "/adminpanel/instructor",
       title: "Instructors",
-      icon: <AliwangwangOutlined className="mr-2" />,
+      icon: <AliwangwangOutlined className="mr-2 text-Primary" />,
     },
     {
       id: 4,
       to: "/adminpanel/student",
       title: "Students",
-      icon: <UserOutlined className="mr-2" />,
+      icon: <UserOutlined className="mr-2 text-Primary" />,
     },
     {
       id: 5,
       to: "/adminpanel/request",
       title: "Requests",
-      icon: <UserOutlined className="mr-2" />,
+      icon: <SendOutlined className="mr-2 text-Primary" />,
     },
   ];
 
