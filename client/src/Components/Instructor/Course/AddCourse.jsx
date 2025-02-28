@@ -14,6 +14,7 @@ import axios from "axios";
 import { useCustomMessage } from "../../Common/CustomMessage";
 import { POST, POSTFILE } from "../../ApiFunction/ApiFunction";
 import CustomDropdown from "../../Common/CustomDropdown";
+import { action } from "../../Url/url";
 
 function AddCourse() {
   const showMessage = useCustomMessage();
@@ -151,11 +152,7 @@ function AddCourse() {
         Object.fromEntries(formData.entries())
       );
 
-      const response = await POSTFILE(
-        `${process.env.REACT_APP_BACKEND_URL}/addcourse`,
-        formData,
-        token
-      );
+      const response = await POSTFILE(action.ADD_COURSE, formData, token);
 
       if (response.status === 200) {
         setLoading(false);

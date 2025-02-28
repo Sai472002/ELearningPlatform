@@ -7,6 +7,7 @@ import CourseContent from "./CourseContent";
 import axios from "axios";
 import { useCustomMessage } from "../../Common/CustomMessage";
 import { GET, POST } from "../../ApiFunction/ApiFunction";
+import { action } from "../../Url/url";
 
 const InstructorCourse = () => {
   const [coursedata, setCoursedata] = useState([]);
@@ -34,9 +35,8 @@ const InstructorCourse = () => {
   };
   const deleteData = async (params) => {
     const { _id, courseName } = params;
-    const url = `${process.env.REACT_APP_BACKEND_URL}/request`;
     try {
-      const res = await POST(url, {
+      const res = await POST(action.POST_REQ, {
         courseid: _id,
         coursename: courseName,
       });

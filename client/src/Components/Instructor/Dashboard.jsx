@@ -12,6 +12,7 @@ import React, { useEffect, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { GET } from "../ApiFunction/ApiFunction";
 import { Modal } from "antd";
+import { action } from "../Url/url";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ const Dashboard = () => {
   const [userData, setUserData] = useState("- - -");
 
   const fetchData = async () => {
-    const result = await GET(`${process.env.REACT_APP_BACKEND_URL}/getinsdata`);
+    const result = await GET(action.GET_INS);
     setUserData(result[0]);
   };
 

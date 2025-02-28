@@ -5,6 +5,7 @@ import axios from "axios";
 import CustomButton from "../../Common/CustomButton";
 import { PlusOutlined } from "@ant-design/icons";
 import CustomTable from "../../Common/CustomTable";
+import { GET, GETCOURSE } from "../../ApiFunction/ApiFunction";
 
 const AdminCourse = () => {
   const [coursedata, setCoursedata] = useState([]);
@@ -31,15 +32,10 @@ const AdminCourse = () => {
   }, []);
 
   const getData = async () => {
-    const token = sessionStorage.getItem("token");
-    const result = await axios.get(`${url}/getallcourse`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const result = await GET(`${url}/getallcourse`);
 
-    if (result.data) {
-      setCoursedata(result.data);
+    if (result?.data) {
+      setCoursedata(result?.data);
     } else {
       setCoursedata([]);
     }

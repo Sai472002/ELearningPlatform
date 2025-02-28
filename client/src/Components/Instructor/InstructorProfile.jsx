@@ -10,6 +10,7 @@ import { GET, PUT } from "../ApiFunction/ApiFunction";
 import { useCustomMessage } from "../Common/CustomMessage";
 import CustomProgressBar from "../Common/CustomProgressBar";
 import CustomAvatar from "../Common/CustomAvatar";
+import { action } from "../Url/url";
 
 const InstructorProfile = () => {
   const showMessage = useCustomMessage();
@@ -23,7 +24,7 @@ const InstructorProfile = () => {
   const [designation, setDesignation] = useState("");
   const [expertise, setExpertise] = useState("Programming");
   const fetchData = async () => {
-    const result = await GET(`${process.env.REACT_APP_BACKEND_URL}/getinsdata`);
+    const result = await GET(action.GET_INS);
     if (result && result.length > 0) {
       const filteredData = result?.map((user) => ({
         username: user.username ? 10 : 0,
@@ -71,10 +72,7 @@ const InstructorProfile = () => {
     convertedObject.designation = designation;
     convertedObject.expertise = expertise;
     try {
-      const result = await PUT(
-        `${process.env.REACT_APP_BACKEND_URL}/editinsdata`,
-        convertedObject
-      );
+      const result = await PUT(action.EDIT_INS, convertedObject);
       if (result.status === 200) {
         setIsLoading(false);
         showMessage("success", "Data added Successfully");
@@ -85,8 +83,7 @@ const InstructorProfile = () => {
       setIsLoading(false);
     }
   };
-  console.log(data);
-  console.log(address);
+
   const options = [
     {
       label: "male",
@@ -138,7 +135,6 @@ const InstructorProfile = () => {
     },
   ];
   const onChange1 = ({ target: { value } }) => {
-    console.log("radio1 checked", value);
     setCheckBoxValue(value);
   };
   const handleInputChange = (title, value) => {

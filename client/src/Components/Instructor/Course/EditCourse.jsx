@@ -13,6 +13,7 @@ import { Button, Upload } from "antd";
 import { useCustomMessage } from "../../Common/CustomMessage";
 import { PUTFILE } from "../../ApiFunction/ApiFunction";
 import CustomDropdown from "../../Common/CustomDropdown";
+import { action } from "../../Url/url";
 
 function EditCourse() {
   const expertiseLists = [
@@ -80,9 +81,6 @@ function EditCourse() {
     { label: "Rating", placeholder: "Enter rating", key: "rating" },
     { label: "Duration", placeholder: "Enter duration", key: "duration" },
   ];
-
-  const baseurl = `${process.env.REACT_APP_BACKEND_URL}`;
-  // console.log("rating", editdata.imagePath);
 
   const navigate = useNavigate();
   let formData = new FormData();
@@ -173,13 +171,7 @@ function EditCourse() {
     const _id = data._id;
 
     try {
-      console.log("FormData before submission:", Object.fromEntries(formData.entries()));
-
-      
-      const result = await PUTFILE(
-        `${process.env.REACT_APP_BACKEND_URL}/editcourse/${_id}`,
-        formData
-      );
+      const result = await PUTFILE(`${action.EDIT_COURSE}/${_id}`, formData);
 
       if (result.status === 200) {
         setLoading(false);
@@ -217,7 +209,7 @@ function EditCourse() {
       },
     },
   };
-  console.log(editdata, "edit");
+
   return (
     <div className="grid gap-4 md:gap-6 lg:gap-8">
       <span className="text-xl border-b pb-4">Edit Course</span>
