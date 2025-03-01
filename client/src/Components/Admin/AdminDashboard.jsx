@@ -1,7 +1,6 @@
 import {
   AliwangwangOutlined,
   ContainerOutlined,
-  DashboardOutlined,
   LogoutOutlined,
   MenuOutlined,
   SendOutlined,
@@ -11,6 +10,7 @@ import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { GET } from "../ApiFunction/ApiFunction";
+import { action } from "../Url/url";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -18,19 +18,16 @@ const AdminDashboard = () => {
   const [menuId, setMenuId] = useState(0);
   const [userData, setUserData] = useState("- - -");
 
-  const url = process.env.REACT_APP_BACKEND_URL;
   const fetchData = async () => {
-    const result = await GET(`${url}/admindetails`);
+    const result = await GET(action.ADMIN_DETAILS);
     if (result?.length > 0) {
       setUserData(result[0]);
     }
   };
-  console.log(userData);
 
   useEffect(() => {
     fetchData();
   }, []);
-  console.log(menuId);
 
   const navList = [
     {

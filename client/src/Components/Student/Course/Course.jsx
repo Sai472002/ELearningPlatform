@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import Filter from "./Filter";
 import CourseCards from "./CourseCards";
 import { GET, GETCOURSE } from "../../ApiFunction/ApiFunction";
+import { action } from "../../Url/url";
 
 const Course = ({ my = false }) => {
   const [coursedata, setCoursedata] = useState([]);
@@ -16,9 +17,7 @@ const Course = ({ my = false }) => {
     getData();
   }, []);
   const getData = async () => {
-    const result = await GETCOURSE(
-      `${process.env.REACT_APP_BACKEND_URL}/getallcourse`
-    );
+    const result = await GETCOURSE(action.GET_ALL_COURSE);
     if (result) {
       setCoursedata(
         result.filter((course) => !course.boughtBy.includes(userId))

@@ -4,9 +4,6 @@ import { useNavigate } from "react-router-dom";
 
 const CourseCards = ({ coursedata, my }) => {
   const navigate = useNavigate();
-  const [card, setCard] = useState(null);
-  const url = process.env.REACT_APP_FRONTEND_URL;
-  console.log(my);
 
   return (
     <div className="h-fit w-full p-2 lg:pt-4 grid gap-2 lg:gap-4 grid-cols-2 md:grid-cols-3 lg:flex lg:flex-wrap transition-all duration-700">

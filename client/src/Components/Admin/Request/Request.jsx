@@ -3,22 +3,23 @@ import CustomTable from "../../Common/CustomTable";
 import { DELETE, GET } from "../../ApiFunction/ApiFunction";
 import CustomModal from "../../Common/CustomModal";
 import CustomButton from "../../Common/CustomButton";
-import CustomInput from "../../Common/CustomInput";
 import { useCustomMessage } from "../../Common/CustomMessage";
 import TextArea from "antd/es/input/TextArea";
+import { action } from "../../Url/url";
 const Request = () => {
   const [request, setRequest] = useState([]);
   const [reason, setReason] = useState("");
   const showMessage = useCustomMessage();
   const [modalData, setModalData] = useState({ data: null, condition: null });
   const fetch = async () => {
-    const res = await GET(`${process.env.REACT_APP_BACKEND_URL}/getRequests`);
+    const res = await GET(action.GET_REQ);
     setRequest(res);
   };
 
   useEffect(() => {
     fetch();
   }, []);
+
   const header = [
     {
       title: "Course Name",
@@ -74,9 +75,7 @@ const Request = () => {
     if (!reason) {
       return;
     }
-    const res = await DELETE(
-      `${process.env.REACT_APP_BACKEND_URL}/deleterequest/${courseid}/${reqid}`
-    );
+    const res = await DELETE(`${action.DEL_REQ}/${courseid}/${reqid}`);
     if (res.status === 200) {
       showMessage("success", res.data.message);
     } else {

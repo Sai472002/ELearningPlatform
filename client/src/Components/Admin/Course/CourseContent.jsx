@@ -7,24 +7,15 @@ import {
   DoubleLeftOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
-import CustomButton from "../../Common/CustomButton";
-import { loadStripe } from "@stripe/stripe-js";
-import axios from "axios";
-
-// Replace with your own Stripe public key
+import { action } from "../../Url/url";
 
 const CourseDetails = () => {
   const { _id } = useParams();
   const navigate = useNavigate();
   const [temp, setTemp] = useState([]);
 
-  // Load Stripe outside of a component’s render to avoid reloading the Stripe object
-  const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
-
   const getCourse = async () => {
-    const data = await GET(
-      `${process.env.REACT_APP_BACKEND_URL}/getcourse/${_id}`
-    );
+    const data = await GET(`${action.GET_COURSE}/${_id}`);
     setTemp(data);
   };
 
@@ -57,26 +48,6 @@ const CourseDetails = () => {
         </div>
       ),
     }));
-  };
-  const id = sessionStorage.getItem("id");
-  // Function to handle the buy button click
-  const handleBuyClick = async (item) => {
-    const token = sessionStorage.getItem("token");
-    console.log(item?._id);
-
-    const response = await axios.post(
-      `${process.env.REACT_APP_BACKEND_URL}/create-checkout-session`,
-      { price: item?.price, course: item?._id },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-
-    const session = response.data; // Access response data directly
-    if (session.id) {
-      const stripe = await stripePromise;
-      stripe.redirectToCheckout({ sessionId: session.id });
-    } else {
-      console.error("Error creating checkout session", session.error);
-    }
   };
 
   return (

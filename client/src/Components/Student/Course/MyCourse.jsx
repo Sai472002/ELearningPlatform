@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import CourseCards from "./CourseCards";
 import { GET } from "../../ApiFunction/ApiFunction";
 import Course from "./Course";
+import { action } from "../../Url/url";
 
 const MyCourse = ({}) => {
   const userId = sessionStorage.getItem("id");
@@ -22,9 +23,7 @@ const MyCourse = ({}) => {
   }, [userId]);
 
   const getData = async () => {
-    const result = await GET(
-      `${process.env.REACT_APP_BACKEND_URL}/getallcourse`
-    );
+    const result = await GET(action.GET_ALL_COURSE);
     if (result) {
       setCoursedata(
         result.filter((course) => course.boughtBy.includes(userId))
@@ -33,7 +32,6 @@ const MyCourse = ({}) => {
       setCoursedata([]);
     }
   };
-  console.log(coursedata, "del");
   return <Course my={true} />;
 };
 

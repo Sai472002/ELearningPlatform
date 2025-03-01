@@ -10,11 +10,11 @@ import {
 import CustomButton from "../../Common/CustomButton";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
+import { action } from "../../Url/url";
 
 // Replace with your own Stripe public key
 
 const CourseDetails = ({ data }) => {
-  console.log(data);
   const { _id } = useParams();
   const navigate = useNavigate();
   const [temp, setTemp] = useState([]);
@@ -23,9 +23,7 @@ const CourseDetails = ({ data }) => {
   const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
   const getCourse = async () => {
-    const data = await GET(
-      `${process.env.REACT_APP_BACKEND_URL}/getcourse/${_id}`
-    );
+    const data = await GET(`${action.GET_COURSE}/${_id}`);
     setTemp(data);
   };
 
@@ -66,7 +64,7 @@ const CourseDetails = ({ data }) => {
     console.log(item?._id);
 
     const response = await axios.post(
-      `${process.env.REACT_APP_BACKEND_URL}/create-checkout-session`,
+      action.BUY_COURSE,
       { price: item?.price, course: item?._id },
       { headers: { Authorization: `Bearer ${token}` } }
     );

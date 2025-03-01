@@ -1,9 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { DELETE, GET } from "../../ApiFunction/ApiFunction";
-import { message, Popconfirm } from "antd";
-import CustomButton from "../../Common/CustomButton";
 import CustomTable from "../../Common/CustomTable";
 import CustomInput from "../../Common/CustomInput";
+import { action } from "../../Url/url";
 
 function AdminInstructor() {
   const [insdata, setInsData] = useState([]);
@@ -17,15 +16,9 @@ function AdminInstructor() {
     { name: "Personal Development", count: 0, color: "#eab308" },
     { name: "View All", count: 0, color: "#334155" },
   ]);
-  const url = process.env.REACT_APP_BACKEND_URL
   const getallInstructors = async () => {
-    let response = await GET(`${url}/getallinsdata`);
+    let response = await GET(action.GET_ALL_INS);
     setInsData(response.data);
-  };
-
-  const cancel = (e) => {
-    console.log(e);
-    message.error("Click on No");
   };
 
   const filteredData = useMemo(() => {
@@ -73,7 +66,6 @@ function AdminInstructor() {
     setFilterOption(updatedFilterOption); // Update the state with the new counts
   }, [insdata]); // Only re-run this effect when `insdata` changes
 
-  console.log(filteredData);
   const columns = [
     {
       title: <span className="text-base font-semibold">Name</span>,
@@ -97,11 +89,10 @@ function AdminInstructor() {
 
   const deleteInstructor = async (userId) => {
     console.log(userId);
-    const response = await DELETE(`${url}/deleteinsdata`, {
+    const response = await DELETE(action.DEL_INS, {
       userId,
     });
     getallInstructors();
-    console.log(response.message);
   };
   useEffect(() => {
     getallInstructors();

@@ -6,6 +6,7 @@ import CustomButton from "../../Common/CustomButton";
 import { PlusOutlined } from "@ant-design/icons";
 import CustomTable from "../../Common/CustomTable";
 import { GET, GETCOURSE } from "../../ApiFunction/ApiFunction";
+import { action } from "../../Url/url";
 
 const AdminCourse = () => {
   const [coursedata, setCoursedata] = useState([]);
@@ -20,9 +21,6 @@ const AdminCourse = () => {
     { name: "Personal Development", color: "#eab308" },
     { name: "View All", color: "#334155" },
   ];
-  const url = process.env.REACT_APP_BACKEND_URL;
-
-  const token = sessionStorage.getItem("token");
 
   const handleaddcourse = () => {
     navigate("/adminpanel/course/addCourse");
@@ -32,8 +30,7 @@ const AdminCourse = () => {
   }, []);
 
   const getData = async () => {
-    const result = await GET(`${url}/getallcourse`);
-
+    const result = await GET(action.GET_ALL_COURSE);
     if (result?.data) {
       setCoursedata(result?.data);
     } else {
@@ -43,15 +40,15 @@ const AdminCourse = () => {
 
   const deleteData = async (params) => {
     const { _id } = params;
+    const token = localStorage.getItem("token");
     try {
-      await axios.delete(`${url}/deletecourse/${_id}`, {
+      await axios.delete(`${action.DEL_COURSE}/${_id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       getData();
     } catch (error) {
-      console.error("Error deleting course:", error);
       showMessage("error", "Failed to delete course. Please try again.");
     }
   };

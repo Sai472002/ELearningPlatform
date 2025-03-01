@@ -2,22 +2,16 @@ import React, { useEffect, useState } from "react";
 import CustomButton from "../Common/CustomButton";
 import CustomDonut from "../Common/CustomDonut";
 import { GET } from "../ApiFunction/ApiFunction";
-import CountUp from 'react-countup';
+import CountUp from "react-countup";
 import CourseProfile from "./CourseProfile";
 import { Progress } from "antd";
+import { action } from "../Url/url";
 
 const AdminProfile = () => {
-  const twoColors = {
-    "0%": "#108ee9",
-    "100%": "#87d068",
-  };
   const [userData, setUserData] = useState([]);
   const [courseData, setCourseData] = useState([]);
   const [active, setActive] = useState(0);
-  const [adminstats , setAdminstats] = useState({})
-  const courseImg = userData?.map((v) => v.imagePath);
-  console.log(courseImg);
-  const url = process.env.REACT_APP_BACKEND_URL
+  const [adminstats, setAdminstats] = useState({});
   const adminData = [
     {
       title: "Courses",
@@ -45,8 +39,7 @@ const AdminProfile = () => {
       ["Personal Development", "#ca8a04"],
       ["Other", "#16a34a"],
     ]);
-    const result = await GET(`${url}/getallcourse`);
-    setUserData(result);
+    const result = await GET(action.GET_ALL_COURSE);
     const course = result
       ?.map((v) => v.courseType)
       .reduce((acc, category, i) => {
@@ -65,18 +58,18 @@ const AdminProfile = () => {
     setCourseData(course);
   };
 
-  const fetchadmin = async()=>{
+  const fetchadmin = async () => {
     try {
-      const stats = await GET(`${url}/adminstats`);
-      setAdminstats(stats)
+      const stats = await GET(action.ADMIN_STATS);
+      setAdminstats(stats);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchData()
-    fetchadmin()
+    fetchData();
+    fetchadmin();
   }, []);
   return (
     <div className="text-gray-700 flex flex-col gap-4 h-full lg:overflow-hidden">
@@ -85,22 +78,15 @@ const AdminProfile = () => {
         {adminData.map((v, i) => (
           <div
             key={i}
-            // onClick={() => setActive(i)}
             className=" bg-gradient-to-r from- md:w-full md:h-[130px] rounded-lg text-xs text-center flex flex-col hover:bg-white hover:shadow ease-in-out transition-all"
           >
             <div className="p-2 text-left">
               <p className="text-base ml-3 mb-2 text-gray-500 hover:text-gray-500">
                 <strong>{v.title}</strong>
               </p>
-              {/* <div className="border-t flex gap-2 flex-wrap pt-2">
-                {v.data?.map((v) => (
-                  <small style={{ color: v.color }}>{v.name}</small>
-                ))}
-              </div> */}
-              {/* <Progress percent={v.count} strokeColor={twoColors} /> */}
             </div>
             <strong className="text-base md:text-4xl text-Primary min-w-9 md:min-w-16 items-center flex justify-center">
-              <CountUp start={0} end={v.count} duration={2}/>
+              <CountUp start={0} end={v.count} duration={2} />
             </strong>
           </div>
         ))}
