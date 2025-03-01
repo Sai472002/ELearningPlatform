@@ -23,4 +23,9 @@ export const action = {
 
   ADMIN_DETAILS: main + "/admindetails",
   ADMIN_STATS: main + "/adminstats",
+
+  LOGIN: main + "/login",
+  FORGET_PASSWORD: main + "/forgotpassword",
+  RESET_PASSWORD: main + "/resetpass",
+  REGISTER: main + "/register",
 };

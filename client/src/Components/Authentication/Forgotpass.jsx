@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import CustomButton from "../Common/CustomButton";
 import CustomInput from "../Common/CustomInput";
 import { useCustomMessage } from "../Common/CustomMessage";
+import { action } from "../Url/url";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -14,14 +15,10 @@ const ForgotPassword = () => {
     setLoading(true);
     e.preventDefault();
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/forgotpassword`,
-        { email }
-      );
+      const response = await axios.post(`${action.FORGET_PASSWORD}`, { email });
       if (response.status === 200) {
         setLoading(false);
         showMessage("success", response?.data?.message);
-        // navigate("/resetpass/:token");
       }
     } catch (err) {
       setLoading(false);

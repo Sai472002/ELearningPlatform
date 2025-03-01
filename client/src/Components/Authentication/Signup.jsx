@@ -7,6 +7,7 @@ import signUpImg from "../../Assets/Images/signup.png";
 import { POST } from "../ApiFunction/ApiFunction";
 import CustomDropdown from "../Common/CustomDropdown";
 import axios from "axios";
+import { action } from "../Url/url";
 
 function Signup() {
   const showMessage = useCustomMessage();
@@ -19,7 +20,6 @@ function Signup() {
     password: "",
     cnfpassword: "",
   });
-  console.log(registerData.designation);
   const designationLists = [
     {
       value: "Admin",
@@ -55,10 +55,7 @@ function Signup() {
       return showMessage("warning", "please enter 10 digit number");
     }
     setLoading(true);
-    const result = await axios.post(
-      `${process.env.REACT_APP_BACKEND_URL}/register`,
-      registerData
-    );
+    const result = await axios.post(`${action.REGISTER}`, registerData);
     try {
       if (result.status === 200) {
         showMessage("success", result.data.message);

@@ -24,6 +24,7 @@ const AdminStudent = () => {
       setCoursedata([]);
     }
   };
+
   const columns = [
     {
       title: "Student Name",

@@ -4,6 +4,7 @@ import axios from "axios";
 import { useCustomMessage } from "../Common/CustomMessage";
 import CustomInput from "../Common/CustomInput";
 import CustomButton from "../Common/CustomButton";
+import { action } from "../Url/url";
 
 const ResetPassword = () => {
   const [password, setPassword] = useState("");
@@ -16,17 +17,20 @@ const ResetPassword = () => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      return showMessage("warning","Passwords do not match");
+      return showMessage("warning", "Passwords do not match");
     }
 
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/resetpass/${token}`,
-        { password })
-      showMessage("success", response.data.message)
+      const response = await axios.post(`${action.RESET_PASSWORD}/${token}`, {
+        password,
+      });
+      showMessage("success", response.data.message);
       setTimeout(() => navigate("/login"), 2000); // Redirect to login after success
     } catch (err) {
-      showMessage("error", err.response?.data?.message || "Something went wrong")
+      showMessage(
+        "error",
+        err.response?.data?.message || "Something went wrong"
+      );
     }
   };
 
@@ -34,7 +38,10 @@ const ResetPassword = () => {
     <div className="h-screen w-screen bg-gray-100 flex flex-col items-center justify-center">
       <form className="md:h-4/5 z-40 bg-white md:w-1/2 h-full flex items-center flex-col gap-10 w-full shadow rounded-lg p-8 relative overflow-hidden">
         <h2 className="text-2xl z-10 flex items-center gap-4 font-mono p-2 my-8 md:text-[40px] font-bold tracking-wider">
-          Create New <span className="p-2 text-xs uppercase rounded text-white h-fit bg-Primary">Password</span>
+          Create New{" "}
+          <span className="p-2 text-xs uppercase rounded text-white h-fit bg-Primary">
+            Password
+          </span>
         </h2>
         <CustomInput
           type="password"

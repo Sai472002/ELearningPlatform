@@ -6,6 +6,7 @@ import loginLeftImage from "../../Assets/Images/loginbg.jpg";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useCustomMessage } from "../Common/CustomMessage";
 import { POST } from "../ApiFunction/ApiFunction";
+import { action } from "../Url/url";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ const Login = () => {
 
     setLoading(true);
     try {
-      const result = await POST(`${process.env.REACT_APP_BACKEND_URL}/login`, {
+      const result = await POST(`${action.LOGIN}`, {
         email,
         password,
       });
