@@ -5,7 +5,7 @@ import axios from "axios";
 import CustomButton from "../../Common/CustomButton";
 import { PlusOutlined } from "@ant-design/icons";
 import CustomTable from "../../Common/CustomTable";
-import { GET, GETCOURSE } from "../../ApiFunction/ApiFunction";
+import { GET } from "../../ApiFunction/ApiFunction";
 import { action } from "../../Url/url";
 import CustomInput from "../../Common/CustomInput";
 
@@ -13,7 +13,7 @@ const AdminCourse = () => {
   const [coursedata, setCoursedata] = useState([]);
   const [active, setActive] = useState(5);
   const showMessage = useCustomMessage();
-  const [search ,setSearch] = useState("")
+  const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const filterOption = [
     { name: "Technology", color: "#0ea5e9" },
@@ -33,11 +33,7 @@ const AdminCourse = () => {
 
   const getData = async () => {
     const result = await GET(action.GET_ALL_COURSE);
-    if (result?.data) {
-      setCoursedata(result?.data);
-    } else {
-      setCoursedata([]);
-    }
+    setCoursedata(result);
   };
 
   const deleteData = async (params) => {
@@ -56,16 +52,19 @@ const AdminCourse = () => {
   };
 
   const filteredData = useMemo(() => {
-        if(active!==5){
-         return coursedata.filter(a=>a.courseType==filterOption[active].name)
-        }
-    
-        if(search){
-          return coursedata.filter(a=>a.courseName.toLowerCase().includes(search.toLowerCase()))
-        }
-    
-        return coursedata
-      }, [active, coursedata,search]); 
+    if (active === 0) {
+      return coursedata.filter((v) => v.courseType === "Technology");
+    } else if (active === 1) {
+      return coursedata.filter((v) => v.courseType === "Business");
+    } else if (active === 2) {
+      return coursedata.filter((v) => v.courseType === "Design");
+    } else if (active === 3) {
+      return coursedata.filter((v) => v.courseType === "Programming");
+    } else if (active === 4) {
+      return coursedata.filter((v) => v.courseType === "Personal Development");
+    }
+    return coursedata;
+  }, [active, coursedata]);
 
   const editData = (params) => {
     navigate("/adminpanel/course/editCourse", {
@@ -77,10 +76,10 @@ const AdminCourse = () => {
     <div className="grid gap-6">
       <div className="flex items-center justify-between">
         <h1 className="lg:text-lg font-semibold text-gray-700 flex gap-2 ">
-          All Courses{" "}
+          All Courses
           <p className="rounded-full text-sm h-[30px] w-[30px] flex items-center justify-center bg-Primary text-white ">
             {coursedata.length}
-          </p>{" "}
+          </p>
         </h1>
         <CustomButton
           title="Create new"
@@ -105,7 +104,10 @@ const AdminCourse = () => {
             {v.name}
           </button>
         ))}
-        <CustomInput onChange={(e)=>setSearch(e.target.value)} placeholder="Search by Course Name"/>
+        <CustomInput
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search by Course Name"
+        />
       </div>
       <CustomTable
         data={filteredData}
