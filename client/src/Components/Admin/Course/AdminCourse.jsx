@@ -7,11 +7,13 @@ import { PlusOutlined } from "@ant-design/icons";
 import CustomTable from "../../Common/CustomTable";
 import { GET } from "../../ApiFunction/ApiFunction";
 import { action } from "../../Url/url";
+import CustomInput from "../../Common/CustomInput";
 
 const AdminCourse = () => {
   const [coursedata, setCoursedata] = useState([]);
   const [active, setActive] = useState(5);
   const showMessage = useCustomMessage();
+  const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const filterOption = [
     { name: "Technology", color: "#0ea5e9" },
@@ -102,6 +104,10 @@ const AdminCourse = () => {
             {v.name}
           </button>
         ))}
+        <CustomInput
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search by Course Name"
+        />
       </div>
       <CustomTable
         data={filteredData}

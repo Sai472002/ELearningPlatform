@@ -1,23 +1,47 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import CustomTable from "../../Common/CustomTable";
 import CustomButton from "../../Common/CustomButton";
 import { PlusOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import CourseContent from "./CourseContent";
-import axios from "axios";
 import { useCustomMessage } from "../../Common/CustomMessage";
 import { GET, POST } from "../../ApiFunction/ApiFunction";
 import { action } from "../../Url/url";
+import CustomInput from "../../Common/CustomInput";
 
 const InstructorCourse = () => {
   const [coursedata, setCoursedata] = useState([]);
   const showMessage = useCustomMessage();
   const navigate = useNavigate();
   const token = sessionStorage.getItem("token");
+  const [active, setActive] = useState(0);
+  const [search , setSearch] = useState("")
+
+  const buttonOption = [
+    { name: "Technology", color: "#0ea5e9" },
+    { name: "Business", color: "#6366f1" },
+    { name: "Design", color: "#8b5cf6" },
+    { name: "Programming", color: "#f43f5e" },
+    { name: "Personal Development", color: "#eab308" },
+    { name: "View All", color: "#334155" },
+  ];
+
+  // Fix the filter logic and avoid unnecessary self-referencing
+  const filterData = useMemo(() => {
+    if(active!==5){
+     return coursedata.filter(a=>a.courseType==buttonOption[active].name)
+    }
+
+    if(search){
+      return coursedata.filter(a=>a.courseName.toLowerCase().includes(search.toLowerCase()))
+    }
+
+    return coursedata
+  }, [active, coursedata,search]); // Recalculate when active or coursedata changes
 
   const handleaddcourse = () => {
     navigate("/instructordashboard/instructorcourse/addCourse");
   };
+
   useEffect(() => {
     getData();
   }, []);
@@ -33,6 +57,7 @@ const InstructorCourse = () => {
       setCoursedata([]);
     }
   };
+
   const deleteData = async (params) => {
     const { _id, courseName } = params;
     try {
@@ -50,6 +75,7 @@ const InstructorCourse = () => {
       showMessage("error", "Failed to delete course. Please try again.");
     }
   };
+
   const editData = (params) => {
     navigate("/instructordashboard/instructorcourse/editCourse", {
       state: params,
@@ -73,11 +99,30 @@ const InstructorCourse = () => {
           className="bg-Primary py-5 font-bold tracking-wider text-white capitalize hover:bg-Primary/80"
         />
       </div>
+      <div className="border w-full flex flex-wrap flex-row-reverse justify-between gap-2 items-center">
+        <CustomInput onChange={(e)=>setSearch(e.target.value)} placeholder="Search by Course Name"/>
+        <div className="gap-2 flex ">
+        {buttonOption.map((a, i) => (
+          <button
+            key={i}
+            className="p-2 rounded text-xs border duration-500 transition-all"
+            style={{
+              backgroundColor: active === i ? a.color : "white",
+              color: active === i ? "white" : a.color,
+              borderColor: a.color
+            }}
+            onClick={() => setActive(i)}
+          >
+            {a.name}
+          </button>
+        ))}
+        </div>
+      </div>
       <CustomTable
-        data={coursedata}
+        data={filterData}
         rowClick={(i) => navigate(`/instructordashboard/coursedetails/${i}`)}
-        deleteFunction={(paeams) => deleteData(paeams)}
-        editFunction={(paeams) => editData(paeams)}
+        deleteFunction={(params) => deleteData(params)}
+        editFunction={(params) => editData(params)}
       />
     </div>
   );
