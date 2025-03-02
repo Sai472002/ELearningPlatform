@@ -17,17 +17,17 @@ const InstructorCourse = () => {
   const [search , setSearch] = useState("")
 
   const buttonOption = [
+    { name: "View All", color: "#334155" },
     { name: "Technology", color: "#0ea5e9" },
     { name: "Business", color: "#6366f1" },
     { name: "Design", color: "#8b5cf6" },
     { name: "Programming", color: "#f43f5e" },
     { name: "Personal Development", color: "#eab308" },
-    { name: "View All", color: "#334155" },
   ];
 
   // Fix the filter logic and avoid unnecessary self-referencing
   const filterData = useMemo(() => {
-    if(active!==5){
+    if(active!==0){
      return coursedata.filter(a=>a.courseType==buttonOption[active].name)
     }
 
@@ -83,7 +83,7 @@ const InstructorCourse = () => {
   };
 
   return (
-    <div className="grid gap-8 lg:gap-12">
+    <div className="grid gap-6 ">
       <div className="flex items-center justify-between">
         <h1 className="lg:text-lg font-semibold text-gray-700 flex gap-2 ">
           All Courses{" "}
@@ -99,24 +99,26 @@ const InstructorCourse = () => {
           className="bg-Primary py-5 font-bold tracking-wider text-white capitalize hover:bg-Primary/80"
         />
       </div>
-      <div className="border w-full flex flex-wrap flex-row-reverse justify-between gap-2 items-center">
-        <CustomInput onChange={(e)=>setSearch(e.target.value)} placeholder="Search by Course Name"/>
-        <div className="gap-2 flex ">
-        {buttonOption.map((a, i) => (
+      <div className="flex justify-start md:justify-between items-center flex-wrap gap-4">
+       <div className="flex flex-wrap gap-2">
+        
+       {buttonOption.map((a, i) => (
           <button
-            key={i}
-            className="p-2 rounded text-xs border duration-500 transition-all"
-            style={{
-              backgroundColor: active === i ? a.color : "white",
-              color: active === i ? "white" : a.color,
-              borderColor: a.color
-            }}
-            onClick={() => setActive(i)}
+          key={i}
+          className="p-2 rounded text-xs border duration-500 transition-all"
+          style={{
+            backgroundColor: active === i ? a.color : "white",
+            color: active === i ? "white" : a.color,
+            borderColor: a.color
+          }}
+          onClick={() => setActive(i)}
           >
             {a.name}
           </button>
         ))}
-        </div>
+       </div>
+        <CustomInput onChange={(e)=>setSearch(e.target.value)} placeholder="Search by Course Name"/>
+
       </div>
       <CustomTable
         data={filterData}
