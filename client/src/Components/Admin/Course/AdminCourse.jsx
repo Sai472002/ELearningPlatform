@@ -7,11 +7,13 @@ import { PlusOutlined } from "@ant-design/icons";
 import CustomTable from "../../Common/CustomTable";
 import { GET, GETCOURSE } from "../../ApiFunction/ApiFunction";
 import { action } from "../../Url/url";
+import CustomInput from "../../Common/CustomInput";
 
 const AdminCourse = () => {
   const [coursedata, setCoursedata] = useState([]);
   const [active, setActive] = useState(5);
   const showMessage = useCustomMessage();
+  const [search ,setSearch] = useState("")
   const navigate = useNavigate();
   const filterOption = [
     { name: "Technology", color: "#0ea5e9" },
@@ -54,25 +56,16 @@ const AdminCourse = () => {
   };
 
   const filteredData = useMemo(() => {
-    let filter;
-    if (active === 0) {
-      return (filter = coursedata.filter((v) => v.courseType === "Technology"));
-    } else if (active === 1) {
-      return (filter = coursedata.filter((v) => v.courseType === "Business"));
-    } else if (active === 2) {
-      return (filter = coursedata.filter((v) => v.courseType === "Design"));
-    } else if (active === 3) {
-      return (filter = coursedata.filter(
-        (v) => v.courseType === "Programming"
-      ));
-    } else if (active === 4) {
-      return (filter = coursedata.filter(
-        (v) => v.courseType === "Personal Development"
-      ));
-    } else {
-      return coursedata;
-    }
-  }, [active, coursedata]);
+        if(active!==5){
+         return coursedata.filter(a=>a.courseType==filterOption[active].name)
+        }
+    
+        if(search){
+          return coursedata.filter(a=>a.courseName.toLowerCase().includes(search.toLowerCase()))
+        }
+    
+        return coursedata
+      }, [active, coursedata,search]); 
 
   const editData = (params) => {
     navigate("/adminpanel/course/editCourse", {
@@ -112,6 +105,7 @@ const AdminCourse = () => {
             {v.name}
           </button>
         ))}
+        <CustomInput onChange={(e)=>setSearch(e.target.value)} placeholder="Search by Course Name"/>
       </div>
       <CustomTable
         data={filteredData}
