@@ -27,7 +27,6 @@ const Course = ({ my = false }) => {
       setCoursedata([]);
     }
   };
-  console.log(coursedata);
 
   const filteredData = useMemo(() => {
     return coursedata.filter((course) => {
@@ -70,14 +69,7 @@ const Course = ({ my = false }) => {
   }, [coursedata, filterText]);
 
   const content = !my
-    ? [
-        // {
-        //   id: 1,
-        //   title: "My Course",
-        //   content: myCourse,
-        // },
-        { id: 2, title: "All Course", content: filteredData },
-      ]
+    ? [{ id: 2, title: "All Course", content: filteredData }]
     : [
         {
           id: 1,

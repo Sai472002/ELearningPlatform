@@ -5,7 +5,13 @@ import { AnimatePresence, motion } from "motion/react";
 import { POSTFILE } from "../ApiFunction/ApiFunction";
 import { useCustomMessage } from "./CustomMessage";
 
-const CustomAvatar = ({ name, imagepath, refresh = () => {} }) => {
+const CustomAvatar = ({
+  name,
+  imagepath,
+  refresh = () => {},
+  editable = true,
+  className,
+}) => {
   const showMessage = useCustomMessage();
   const imageurl = `${imagepath}`;
   console.log(imageurl);
@@ -44,7 +50,7 @@ const CustomAvatar = ({ name, imagepath, refresh = () => {} }) => {
     <div className="relative">
       <Avatar
         src={imageurl}
-        className={`bg-Primary/20 text-Primary text-2xl size-16 border-4 border-white shadow-gray-400 shadow ${
+        className={`bg-Primary/20 text-Primary text-2xl size-16 border-4 border-white shadow-gray-400 shadow ${className} ${
           image.length > 0 && "cursor-pointer"
         }`}
         onClick={() => {
@@ -62,10 +68,12 @@ const CustomAvatar = ({ name, imagepath, refresh = () => {} }) => {
         onChange={handleFileChange}
         style={{ display: "none" }}
       />
-      <CameraFilled
-        onClick={handleCameraClick}
-        className="text-Primary absolute bottom-0 right-0 scale-105 hover:text-indigo-700 cursor-pointer"
-      />
+      {editable && (
+        <CameraFilled
+          onClick={handleCameraClick}
+          className="text-Primary absolute bottom-0 right-0 scale-105 hover:text-indigo-700 cursor-pointer"
+        />
+      )}
       {preview && image && (
         <AnimatePresence>
           <motion.div

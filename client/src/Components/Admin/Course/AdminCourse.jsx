@@ -5,7 +5,7 @@ import axios from "axios";
 import CustomButton from "../../Common/CustomButton";
 import { PlusOutlined } from "@ant-design/icons";
 import CustomTable from "../../Common/CustomTable";
-import { GET, GETCOURSE } from "../../ApiFunction/ApiFunction";
+import { GET } from "../../ApiFunction/ApiFunction";
 import { action } from "../../Url/url";
 
 const AdminCourse = () => {
@@ -31,11 +31,7 @@ const AdminCourse = () => {
 
   const getData = async () => {
     const result = await GET(action.GET_ALL_COURSE);
-    if (result?.data) {
-      setCoursedata(result?.data);
-    } else {
-      setCoursedata([]);
-    }
+    setCoursedata(result);
   };
 
   const deleteData = async (params) => {
@@ -54,24 +50,18 @@ const AdminCourse = () => {
   };
 
   const filteredData = useMemo(() => {
-    let filter;
     if (active === 0) {
-      return (filter = coursedata.filter((v) => v.courseType === "Technology"));
+      return coursedata.filter((v) => v.courseType === "Technology");
     } else if (active === 1) {
-      return (filter = coursedata.filter((v) => v.courseType === "Business"));
+      return coursedata.filter((v) => v.courseType === "Business");
     } else if (active === 2) {
-      return (filter = coursedata.filter((v) => v.courseType === "Design"));
+      return coursedata.filter((v) => v.courseType === "Design");
     } else if (active === 3) {
-      return (filter = coursedata.filter(
-        (v) => v.courseType === "Programming"
-      ));
+      return coursedata.filter((v) => v.courseType === "Programming");
     } else if (active === 4) {
-      return (filter = coursedata.filter(
-        (v) => v.courseType === "Personal Development"
-      ));
-    } else {
-      return coursedata;
+      return coursedata.filter((v) => v.courseType === "Personal Development");
     }
+    return coursedata;
   }, [active, coursedata]);
 
   const editData = (params) => {
@@ -84,10 +74,10 @@ const AdminCourse = () => {
     <div className="grid gap-6">
       <div className="flex items-center justify-between">
         <h1 className="lg:text-lg font-semibold text-gray-700 flex gap-2 ">
-          All Courses{" "}
+          All Courses
           <p className="rounded-full text-sm h-[30px] w-[30px] flex items-center justify-center bg-Primary text-white ">
             {coursedata.length}
-          </p>{" "}
+          </p>
         </h1>
         <CustomButton
           title="Create new"

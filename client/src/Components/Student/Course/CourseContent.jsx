@@ -5,12 +5,14 @@ import { Collapse } from "antd";
 import {
   CaretRightOutlined,
   DoubleLeftOutlined,
+  PhoneOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
 import CustomButton from "../../Common/CustomButton";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import { action } from "../../Url/url";
+import CustomAvatar from "../../Common/CustomAvatar";
 
 // Replace with your own Stripe public key
 
@@ -24,7 +26,11 @@ const CourseDetails = ({ data }) => {
 
   const getCourse = async () => {
     const data = await GET(`${action.GET_COURSE}/${_id}`);
-    setTemp(data);
+    const result = await GET(action.GET_ALL_INS);
+    const filter = result?.data?.filter(
+      (v) => v.userId == data[0]?.instructorId
+    );
+    setTemp(data?.map((v) => ({ ...v, instructorDetails: filter })));
   };
 
   useEffect(() => {
@@ -94,6 +100,24 @@ const CourseDetails = ({ data }) => {
               <p className="bg-Primary/10 rounded-md text-Primary p-2 text-center mb-2 tracking-widest">
                 {item?.courseName}
               </p>
+              {item?.instructorDetails?.map((ins) => (
+                <div className="flex flex-col items-center gap-3 mr-auto rounded bg-gray-50 p-4">
+                  <CustomAvatar
+                    editable={false}
+                    name={ins?.username}
+                    imagepath={ins?.imagepath}
+                    className="md:size-24"
+                  />
+                  <p className="text-Primary capitalize bg-white p-2">
+                    <span className="text-gray-500">Instructor : </span>
+                    {ins?.username}
+                  </p>
+                  <small>
+                    <PhoneOutlined className="text-Primary mr-2" />
+                    {ins?.phonenumber}
+                  </small>
+                </div>
+              ))}
               <p className="text-xs md:text-sm text-Primary">Requirements</p>
               <div className="text-xs md:text-sm p-2 min-h-40 text-gray-600">
                 <ol className="list-inside list-decimal leading-relaxed">
