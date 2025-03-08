@@ -1,4 +1,8 @@
-import { CameraFilled, CloseOutlined } from "@ant-design/icons";
+import {
+  CameraFilled,
+  CloseOutlined,
+  LoadingOutlined,
+} from "@ant-design/icons";
 import { Avatar } from "antd";
 import React, { useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
@@ -14,6 +18,7 @@ const CustomAvatar = ({
 }) => {
   const showMessage = useCustomMessage();
   const imageurl = `${imagepath}`;
+  const [loading, setLoading] = useState(false);
   console.log(imageurl);
 
   const [image, setImage] = useState([]);
@@ -32,6 +37,7 @@ const CustomAvatar = ({
 
   // Handle file selection
   const handleFileChange = async (e) => {
+    setLoading(true);
     const file = e.target.files[0];
     const formData = new FormData();
     formData.append("profilepicture", file);
@@ -41,6 +47,7 @@ const CustomAvatar = ({
         `${process.env.REACT_APP_BACKEND_URL}/uploadimage`,
         formData
       );
+      setLoading(false);
       showMessage("success", response.data.message);
       refresh();
       // Create a local URL of the selected file and update image state
@@ -49,7 +56,7 @@ const CustomAvatar = ({
   return (
     <div className="relative">
       <Avatar
-        src={imageurl}
+        src={loading ? <LoadingOutlined /> : imageurl}
         className={`bg-Primary/20 text-Primary text-2xl size-16 border-4 border-white shadow-gray-400 shadow ${className} ${
           image.length > 0 && "cursor-pointer"
         }`}

@@ -10,7 +10,11 @@ const Request = () => {
   const [request, setRequest] = useState([]);
   const [reason, setReason] = useState("");
   const showMessage = useCustomMessage();
-  const [modalData, setModalData] = useState({ data: null, condition: null });
+  const [modalData, setModalData] = useState({
+    data: null,
+    condition: null,
+    open: false,
+  });
   const fetch = async () => {
     const res = await GET(action.GET_REQ);
     setRequest(res);
@@ -78,12 +82,14 @@ const Request = () => {
     const res = await DELETE(`${action.DEL_REQ}/${courseid}/${reqid}`);
     if (res.status === 200) {
       showMessage("success", res.data.message);
+      setModalData({ data: null, condition: null, open: false });
     } else {
       showMessage("error", res.data.message);
+      setModalData({ data: null, condition: null, open: false });
     }
     fetch();
   };
-
+  console.log(modalData);
   return (
     <div className="grid gap-4">
       <h1 className="lg:text-lg font-semibold text-gray-700 flex gap-2 ">
@@ -96,12 +102,13 @@ const Request = () => {
         columns={header}
         data={request}
         approveBtn
-        viewModal={(v, i) => {
-          setModalData({ data: v, condition: i });
+        viewModal={(v, i, view) => {
+          setModalData({ data: v, condition: i, open: view });
         }}
       />
+      {/* {modalData.data.length > 0 && ( */}
       <CustomModal
-        open={modalData.data}
+        open={modalData.open === true}
         width={400}
         title={
           modalData.condition === 1 ? "Confirm Approval" : "Confirm Rejection"
@@ -111,7 +118,7 @@ const Request = () => {
             <CustomButton
               className="flex-1"
               onClick={() => {
-                setModalData({});
+                setModalData({ open: false });
                 setReason("");
               }}
             >
@@ -145,6 +152,7 @@ const Request = () => {
           />
         </div>
       </CustomModal>
+      {/* )} */}
     </div>
   );
 };

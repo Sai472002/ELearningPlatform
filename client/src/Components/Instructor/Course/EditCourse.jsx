@@ -190,6 +190,11 @@ function EditCourse() {
   const props = {
     image: {
       beforeUpload: (file) => {
+        if (file.size > 10 * 1024 * 1024) {
+          // 10MB
+          showMessage("info", "Image file size should be less than 10MB.");
+          return false;
+        }
         setImage(file);
         return false;
       },
@@ -201,6 +206,11 @@ function EditCourse() {
 
     video: {
       beforeUpload: (file) => {
+        if (file.size > 10 * 1024 * 1024) {
+          // 10MB
+          showMessage("info", "Video file size should be less than 10MB.");
+          return false;
+        }
         setVideo(file);
         return false;
       },

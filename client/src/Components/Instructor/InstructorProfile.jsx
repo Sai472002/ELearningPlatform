@@ -273,7 +273,7 @@ const InstructorProfile = () => {
               type="select"
               className="w-full"
               value={designation}
-              disabled={isupdate}
+              disabled={true}
               menus={designationLists}
               onChange={(e) => setDesignation(e)}
             />

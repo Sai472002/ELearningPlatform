@@ -6,65 +6,36 @@ import { action } from "../../Url/url";
 
 function AdminInstructor() {
   const [insdata, setInsData] = useState([]);
-  const [active, setActive] = useState(5);
+  const [active, setActive] = useState(0);
+  const [search, setSearch] = useState("");
 
-  const [filterOption, setFilterOption] = useState([
-    { name: "Technology", count: 0, color: "#0ea5e9" },
-    { name: "Business", count: 0, color: "#6366f1" },
-    { name: "Design", count: 0, color: "#8b5cf6" },
-    { name: "Programming", count: 0, color: "#f43f5e" },
-    { name: "Personal Development", count: 0, color: "#eab308" },
-    { name: "View All", count: 0, color: "#334155" },
-  ]);
+  const buttonOption = [
+    { name: "View All", color: "#334155" },
+    { name: "Technology", color: "#0ea5e9" },
+    { name: "Business", color: "#6366f1" },
+    { name: "Design", color: "#8b5cf6" },
+    { name: "Programming", color: "#f43f5e" },
+    { name: "Personal Development", color: "#eab308" },
+  ];
+
   const getallInstructors = async () => {
     let response = await GET(action.GET_ALL_INS);
     setInsData(response.data);
   };
 
-  const filteredData = useMemo(() => {
-    let filter = null;
-    if (active === 0) {
-      return (filter = insdata.filter((v) => v.expertise === "Technology"));
-    } else if (active === 1) {
-      return (filter = insdata.filter((v) => v.expertise === "Business"));
-    } else if (active === 2) {
-      return (filter = insdata.filter((v) => v.expertise === "Design"));
-    } else if (active === 3) {
-      return (filter = insdata.filter((v) => v.expertise === "Programming"));
-    } else if (active === 4) {
-      return (filter = insdata.filter(
-        (v) => v.expertise === "Personal Development"
-      ));
-    } else {
-      return (filter = insdata);
+  const filterData = useMemo(() => {
+    if (active !== 0) {
+      return insdata.filter((a) => a.expertise == buttonOption[active].name);
     }
-  }, [active, insdata, filterOption]);
 
-  const handleChange = (e) => {};
+    if (search) {
+      return insdata.filter((a) =>
+        a.username.toLowerCase().includes(search.toLowerCase())
+      );
+    }
 
-  useEffect(() => {
-    // Calculate counts based on `insdata` whenever `insdata` or `active` changes
-    const updatedFilterOption = [...filterOption]; // Copy the filterOption array
-
-    updatedFilterOption[0].count = insdata.filter(
-      (v) => v.expertise === "Technology"
-    ).length;
-    updatedFilterOption[1].count = insdata.filter(
-      (v) => v.expertise === "Business"
-    ).length;
-    updatedFilterOption[2].count = insdata.filter(
-      (v) => v.expertise === "Design"
-    ).length;
-    updatedFilterOption[3].count = insdata.filter(
-      (v) => v.expertise === "Programming"
-    ).length;
-    updatedFilterOption[4].count = insdata.filter(
-      (v) => v.expertise === "Personal Development"
-    ).length;
-    updatedFilterOption[5].count = insdata.length;
-
-    setFilterOption(updatedFilterOption); // Update the state with the new counts
-  }, [insdata]); // Only re-run this effect when `insdata` changes
+    return insdata;
+  }, [active, insdata, search]);
 
   const columns = [
     {
@@ -100,21 +71,14 @@ function AdminInstructor() {
 
   return (
     <div className="w-full grid gap-8 lg:gap-12 ">
-      <div className="flex items-center gap-2">
-        <h1 className="lg:text-lg font-semibold text-gray-700">
-          Instructor Table
-        </h1>
-        <p className="flex items-center justify-center h-6 w-6 border border-Primary text-xs bg-Primary/10 text-Primary rounded-full">
-          {insdata.length}
+      <h1 className="lg:text-lg font-semibold text-gray-700 flex gap-2 ">
+        Instructor{" "}
+        <p className="rounded-full text-sm h-[30px] w-[30px] flex items-center justify-center bg-Primary text-white ">
+          {insdata?.length}
         </p>
-      </div>
-      <div className="flex flex-row-reverse justify-end items-center flex-wrap gap-4">
-        <CustomInput
-          containerClassName="ml-auto"
-          placeholder="Search by name"
-          onChange={handleChange}
-        />
-        {filterOption.map((v, i) => (
+      </h1>
+      <div className="flex justify-end items-center flex-wrap gap-4">
+        {buttonOption.map((v, i) => (
           <button
             key={i}
             className={`p-2 rounded text-xs border duration-500 transition-all`}
@@ -128,10 +92,16 @@ function AdminInstructor() {
             {v.name}
           </button>
         ))}
+        <CustomInput
+          containerClassName="ml-auto"
+          placeholder="Search by name"
+          onChange={(e) => setSearch(e.target.value)}
+        />
       </div>
       <CustomTable
         columns={columns}
-        data={filteredData}
+        data={filterData}
+        editBtn={false}
         deleteFunction={(params) => deleteInstructor(params.userId)}
       />
     </div>

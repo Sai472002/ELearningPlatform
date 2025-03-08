@@ -24,8 +24,8 @@ const CourseProfile = ({ courseData, allCourse, refresh = () => {} }) => {
               </div>
             ))}
           </div>
-          <div className=" w-full grid gap-3 max-h-80 overflow-y-auto p-2 pt-0 relative">
-            <div className="top-0 sticky bg-white p-2">
+          <div className=" w-full flex flex-col gap-3 max-h-80 overflow-y-auto p-2 pt-0 relative">
+            <div className="top-0 sticky bg-white p-2 h-fit">
               <Link
                 to="/adminpanel/course"
                 className="text-Primary underline-offset-4 underline"
@@ -33,9 +33,11 @@ const CourseProfile = ({ courseData, allCourse, refresh = () => {} }) => {
                 view all courses
               </Link>
             </div>
-            {allCourse?.map((v,i) => (
+            {allCourse?.map((v, i) => (
               <ul className="text-xs bg-Primary/5 p-2">
-                <li key={i} className="px-2">{v.courseName}</li>
+                <li key={i} className="px-2 capitalize">
+                  {v.courseName}
+                </li>
               </ul>
             ))}
           </div>

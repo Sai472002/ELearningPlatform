@@ -15,7 +15,7 @@ const AdminProfile = () => {
   const adminData = [
     {
       title: "Courses",
-      count: userData?.length,
+      count: courseData?.length,
     },
     {
       title: "Enrolled",
@@ -56,6 +56,7 @@ const AdminProfile = () => {
         return acc;
       }, []);
     setCourseData(course);
+    setUserData(result);
   };
 
   const fetchadmin = async () => {

@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import InstructorTable from "../../Common/CustomTable";
 import { useNavigate } from "react-router-dom";
 import { useCustomMessage } from "../../Common/CustomMessage";
 import axios from "axios";
 import { GET } from "../../ApiFunction/ApiFunction";
 import { action } from "../../Url/url";
+import CustomInput from "../../Common/CustomInput";
 
 const AdminStudent = () => {
   const [coursedata, setCoursedata] = useState([]);
   const [active, setActive] = useState(5);
+  const [search, setSearch] = useState("");
   const showMessage = useCustomMessage();
   const navigate = useNavigate();
 
@@ -16,13 +18,19 @@ const AdminStudent = () => {
     getData();
   }, []);
 
+  const filterData = useMemo(() => {
+    if (search) {
+      return coursedata.filter((a) =>
+        a.username.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    return coursedata;
+  }, [active, coursedata, search]);
+
   const getData = async () => {
     const result = await GET(action.GET_STUDENT);
-    if (result.data) {
-      setCoursedata(result.data);
-    } else {
-      setCoursedata([]);
-    }
+    setCoursedata(result);
   };
 
   const columns = [
@@ -59,16 +67,21 @@ const AdminStudent = () => {
 
   return (
     <div className="grid gap-6">
-      <div className="flex items-center gap-2">
-        <h1 className="lg:text-lg font-semibold text-gray-700">Student List</h1>
-        <p className="flex items-center justify-center h-6 w-6 border border-Primary text-xs bg-Primary/10 text-Primary rounded-full">
-          {coursedata.length}
+      <h1 className="lg:text-lg font-semibold text-gray-700 flex gap-2 ">
+        Student{" "}
+        <p className="rounded-full text-sm h-[30px] w-[30px] flex items-center justify-center bg-Primary text-white ">
+          {coursedata?.length}
         </p>
+      </h1>
+      <div className="flex items-center flex-wrap gap-4">
+        <CustomInput
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search by Course Name"
+        />
       </div>
-      <div className="flex flex-row-reverse justify-end items-center flex-wrap gap-4"></div>
       <InstructorTable
         columns={columns}
-        data={coursedata}
+        data={filterData}
         deleteFunction={(record) => deleteData(record)}
         editBtn={false}
       />

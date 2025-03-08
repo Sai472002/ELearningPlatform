@@ -129,6 +129,7 @@ const CustomTable = ({
       validate === "Admin" || action === true
         ? setDefaultColumn([
             ...columns,
+
             {
               title: "Action",
               key: "action",
@@ -137,7 +138,11 @@ const CustomTable = ({
               width: 100,
               render: (_, record) => (
                 <div
-                  className="flex gap-2 justify-evenly"
+                  className={`flex gap-2 justify-evenly ${
+                    (record.status === "Approved" ||
+                      record.status === "Rejected") &&
+                    "cursor-not-allowed grayscale"
+                  }`}
                   onClick={(e) => e.stopPropagation()}
                 >
                   {editBtn === true && approveBtn === false && (
@@ -170,14 +175,26 @@ const CustomTable = ({
                         type="approve"
                         onClick={(e) => {
                           e.stopPropagation();
-                          viewModal(record, 1);
+                          viewModal(record, 1, true);
                         }}
+                        disabled={
+                          record.status == "Approved" ||
+                          record.status == "Rejected"
+                            ? true
+                            : false
+                        }
                       />
                       <CustomButton
                         type="reject"
+                        disabled={
+                          record.status == "Approved" ||
+                          record.status == "Rejected"
+                            ? true
+                            : false
+                        }
                         onClick={(e) => {
                           e.stopPropagation();
-                          viewModal(record, 2);
+                          viewModal(record, 2, true);
                         }}
                       />
                     </>

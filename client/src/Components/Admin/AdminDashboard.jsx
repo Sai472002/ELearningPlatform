@@ -102,7 +102,7 @@ const AdminDashboard = () => {
         <h1 className="font-bold tracking-widest lg-text-lg p-4 bg-Primary flex text-white lg:w-fit items-center w-full">
           <MenuOutlined
             className={`mr-2 bg-gray-100/10 hover:bg-white ${
-              isMenuOpen && "bg-white text-black"
+              isMenuOpen && "bg-white !text-black"
             } hover:text-black transition-all duration-300 text-white rounded-full p-2`}
             onClick={handleMenuClick}
           />

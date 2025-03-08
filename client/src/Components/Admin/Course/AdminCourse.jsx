@@ -11,17 +11,17 @@ import CustomInput from "../../Common/CustomInput";
 
 const AdminCourse = () => {
   const [coursedata, setCoursedata] = useState([]);
-  const [active, setActive] = useState(5);
+  const [active, setActive] = useState(0);
   const showMessage = useCustomMessage();
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
-  const filterOption = [
+  const buttonOption = [
+    { name: "View All", color: "#334155" },
     { name: "Technology", color: "#0ea5e9" },
     { name: "Business", color: "#6366f1" },
     { name: "Design", color: "#8b5cf6" },
     { name: "Programming", color: "#f43f5e" },
     { name: "Personal Development", color: "#eab308" },
-    { name: "View All", color: "#334155" },
   ];
 
   const handleaddcourse = () => {
@@ -51,20 +51,21 @@ const AdminCourse = () => {
     }
   };
 
-  const filteredData = useMemo(() => {
-    if (active === 0) {
-      return coursedata.filter((v) => v.courseType === "Technology");
-    } else if (active === 1) {
-      return coursedata.filter((v) => v.courseType === "Business");
-    } else if (active === 2) {
-      return coursedata.filter((v) => v.courseType === "Design");
-    } else if (active === 3) {
-      return coursedata.filter((v) => v.courseType === "Programming");
-    } else if (active === 4) {
-      return coursedata.filter((v) => v.courseType === "Personal Development");
+  const filterData = useMemo(() => {
+    if (active !== 0) {
+      return coursedata.filter(
+        (a) => a.courseType == buttonOption[active].name
+      );
     }
+
+    if (search) {
+      return coursedata.filter((a) =>
+        a.courseName.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
     return coursedata;
-  }, [active, coursedata]);
+  }, [active, coursedata, search]);
 
   const editData = (params) => {
     navigate("/adminpanel/course/editCourse", {
@@ -81,16 +82,16 @@ const AdminCourse = () => {
             {coursedata.length}
           </p>
         </h1>
-        <CustomButton
+        {/* <CustomButton
           title="Create new"
           onClick={handleaddcourse}
           icon={<PlusOutlined />}
           variant="default"
           className="bg-Primary py-5 font-bold tracking-wider text-white capitalize hover:bg-Primary/80"
-        />
+        /> */}
       </div>
-      <div className="flex flex-row-reverse justify-end items-center flex-wrap gap-4">
-        {filterOption.map((v, i) => (
+      <div className="flex justify-end items-center flex-wrap gap-4">
+        {buttonOption.map((v, i) => (
           <button
             key={i}
             className={`p-2 rounded text-xs border duration-500 transition-all`}
@@ -107,10 +108,11 @@ const AdminCourse = () => {
         <CustomInput
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search by Course Name"
+          containerClassName="ml-auto"
         />
       </div>
       <CustomTable
-        data={filteredData}
+        data={filterData}
         rowClick={(i) => navigate(`/adminpanel/coursedetails/${i}`)}
         deleteFunction={(paeams) => deleteData(paeams)}
         editFunction={(paeams) => editData(paeams)}

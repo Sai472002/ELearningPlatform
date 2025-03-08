@@ -171,6 +171,11 @@ function AddCourse() {
   const props = {
     image: {
       beforeUpload: (file) => {
+        if (file.size > 10 * 1024 * 1024) {
+          // 10MB
+          showMessage("info", "Image file size should be less than 10MB.");
+          return false;
+        }
         setImage(file);
         return false;
       },
@@ -182,6 +187,11 @@ function AddCourse() {
 
     video: {
       beforeUpload: (file) => {
+        if (file.size > 10 * 1024 * 1024) {
+          // 10MB
+          showMessage("info", "Video file size should be less than 10MB.");
+          return false;
+        }
         setVideo(file);
         return false;
       },
@@ -384,7 +394,7 @@ function AddCourse() {
           />
         </Upload>
         <span className="text-red-500 mx-1 text-xs bg-red-50 rounded-md h-fit p-1">
-          required
+          {!image && "required"}
         </span>
       </div>
       <div className="flex gap-5 text-base p-2">
@@ -397,7 +407,7 @@ function AddCourse() {
           />
         </Upload>
         <span className="text-red-500 mx-1 text-xs bg-red-50 rounded-md h-fit p-1">
-          required
+          {!video && "required"}
         </span>
       </div>
       <div className="flex items-center gap-4">
