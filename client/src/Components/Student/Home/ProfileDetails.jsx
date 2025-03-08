@@ -61,7 +61,7 @@ const ProfileDetails = () => {
     try {
       const token = sessionStorage.getItem("token");
       if (token) {
-        const result = await axios.get("http://localhost:3000/getdata", {
+        const result = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/getdata`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setData(result.data);
@@ -114,7 +114,7 @@ const ProfileDetails = () => {
     convertedObject.designation = designation;
     try {
       const result = await PUT(
-        "http://localhost:3000/editdata",
+        `${process.env.REACT_APP_BACKEND_URL}/editdata`,
         convertedObject
       );
       if (result.status === 200) {
