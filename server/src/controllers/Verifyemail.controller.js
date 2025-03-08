@@ -31,6 +31,8 @@ const verifyEmail = async (req, res) => {
 // to store the data from the register database to the user details " only if the email is verified "
     await userDetails.create(data)}
     else if(user.designation==="Instructor"){
+      console.log("instructordetails getting created");
+      
       await instDetails.create(data)
     }
     else {

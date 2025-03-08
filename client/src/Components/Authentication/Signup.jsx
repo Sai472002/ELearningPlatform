@@ -55,18 +55,18 @@ function Signup() {
       return showMessage("warning", "please enter 10 digit number");
     }
     setLoading(true);
-    const result = await axios.post(`${action.REGISTER}`, registerData);
     try {
+      var result = await axios.post(`${action.REGISTER}`, registerData);
       if (result.status === 200) {
         showMessage("success", result.data.message);
         setLoading(false);
         navigate("/login");
       } else {
-        showMessage("error", "Email already exists");
-        setLoading(false);
+        showMessage("error", result.data.message);
+        setLoading(false) 
       }
     } catch (e) {
-      showMessage("error", "Email already exists");
+      showMessage("error",e.message);
       setLoading(false);
     }
   };

@@ -13,7 +13,7 @@ const regPost = async (req, res) => {
     const { email, password, username } = req.body;
     const checkmail = await register.findOne({ email });
     if (checkmail) {
-      return res.status(400).json({ message: "email already exist" });
+      return res.status(404).json({ message: "email already exist" });
     }
     const encpass = await bcrypt.hash(password, 10);
     let data = {

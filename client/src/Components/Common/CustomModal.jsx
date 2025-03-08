@@ -17,6 +17,7 @@ const CustomModal = ({
     <Modal
       open={open}
       onCancel={onClose}
+      onOk
       width={width}
       centered={centered}
       className={classNames}
