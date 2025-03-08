@@ -55,9 +55,9 @@ const ForgotPassword = () => {
             className=" float-end font-bold"
             color="solid"
             onClick={handleSubmit}
-          >
-            Submit
-          </CustomButton>
+          />
+         
+         
           <Link to="/login">
             <CustomButton
               title="Back"
