@@ -25,7 +25,6 @@ const InstructorCourse = () => {
     { name: "Personal Development", color: "#eab308" },
   ];
 
-  // Fix the filter logic and avoid unnecessary self-referencing
   const filterData = useMemo(() => {
     if(active!==0){
      return coursedata.filter(a=>a.courseType==buttonOption[active].name)
@@ -36,7 +35,7 @@ const InstructorCourse = () => {
     }
 
     return coursedata
-  }, [active, coursedata,search]); // Recalculate when active or coursedata changes
+  }, [active, coursedata,search]); 
 
   const handleaddcourse = () => {
     navigate("/instructordashboard/instructorcourse/addCourse");
