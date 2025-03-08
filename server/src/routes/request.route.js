@@ -17,9 +17,7 @@ router.post("/request", async (req, res) => {
   try {
     const { courseid, coursename,imagepath } = req.body;
     const temp = await Request.findOne({ courseid });
-    console.log(temp);
     const data1 = await courseDetails.findOne({_id:courseid}) 
-    log(data1)
     if (temp && temp.status === "Pending") {
       return res.json({ message: "Course Request already exist" });
     }
