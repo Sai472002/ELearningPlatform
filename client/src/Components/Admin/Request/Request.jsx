@@ -82,7 +82,7 @@ const Request = () => {
     const res = await DELETE(`${action.DEL_REQ}/${courseid}/${reqid}`);
     if (res.status === 200) {
       showMessage("success", res.data.message);
-      setModalData({ data: null, condition: null, open: false });
+      window.location.reload();
     } else {
       showMessage("error", res.data.message);
       setModalData({ data: null, condition: null, open: false });

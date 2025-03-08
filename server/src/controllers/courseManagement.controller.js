@@ -23,6 +23,7 @@ const uploadToCloudinary = (fileBuffer, folder, resourceType) => {
 
 const addCourse = async (req, res) => {
   try {
+    console.log("Course hit")
     const instructorId = req.userId;
     const insdata = await instructorDetails.findOne({ userId: instructorId });
     const instructorName = insdata.username;

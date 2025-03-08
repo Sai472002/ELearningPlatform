@@ -56,6 +56,7 @@ const ForgotPassword = () => {
             color="solid"
             onClick={handleSubmit}
           />
+
           <Link to="/login">
             <CustomButton
               title="Back"

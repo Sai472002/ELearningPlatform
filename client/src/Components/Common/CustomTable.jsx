@@ -156,8 +156,8 @@ const CustomTable = ({
                   )}
                   {deleteBtn === true && approveBtn === false && (
                     <Popconfirm
-                      title="Delete the task"
-                      description="Are you sure to delete this task?"
+                      title="Delete the Course"
+                      description="Are you sure to delete this course?"
                       onConfirm={(e) => {
                         e.stopPropagation();
                         handleDelete(record);
@@ -173,6 +173,7 @@ const CustomTable = ({
                     <>
                       <CustomButton
                         type="approve"
+                        disabled={record.status === "Pending" ? false : true}
                         onClick={(e) => {
                           e.stopPropagation();
                           viewModal(record, 1, true);
