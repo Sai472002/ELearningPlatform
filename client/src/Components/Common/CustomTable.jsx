@@ -178,12 +178,6 @@ const CustomTable = ({
                           e.stopPropagation();
                           viewModal(record, 1, true);
                         }}
-                        disabled={
-                          record.status == "Approved" ||
-                          record.status == "Rejected"
-                            ? true
-                            : false
-                        }
                       />
                       <CustomButton
                         type="reject"
