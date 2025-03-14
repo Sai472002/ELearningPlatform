@@ -34,6 +34,8 @@ router.post('/create-checkout-session', verifyToken, async (req, res) => {
 
     // Send session ID to the client
     res.json({ id: session.id });
+    console.log(session);
+    
   } catch (error) {
     console.error("Error creating checkout session:", error);
     res.status(500).json({ error: error.message });
@@ -48,7 +50,7 @@ router.get('/checkout-session/:sessionId', async (req, res) => {
       console.log("hi da")
       const session = await stripe.checkout.sessions.retrieve(req.params.sessionId);
       res.json(session);
-      // console.log(session);
+      console.log(session);
       const data = await courseDetails.findOne({_id:courseId})
       const data1 = await userDetails.findOne({userId})
       if(data.boughtBy.includes(userId)){

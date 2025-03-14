@@ -14,14 +14,14 @@ import axios from "axios";
 import { action } from "../../Url/url";
 import CustomAvatar from "../../Common/CustomAvatar";
 
-// Replace with your own Stripe public key
+
 
 const CourseDetails = ({ data }) => {
   const { _id } = useParams();
   const navigate = useNavigate();
   const [temp, setTemp] = useState([]);
 
-  // Load Stripe outside of a component’s render to avoid reloading the Stripe object
+
   const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
   const getCourse = async () => {

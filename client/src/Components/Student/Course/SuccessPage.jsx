@@ -1,6 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { GET } from "../../ApiFunction/ApiFunction";
 
 const Success = () => {
+  const [searchParams] = useSearchParams();
+  const sessionId = searchParams.get("session_id");
+  const courseId = searchParams.get("courseId");
+  const [sessionDetails, setSessionDetails] = useState(null);
+
+  useEffect(() => {
+    const fetchSessionDetails = async () => {
+      console.log(courseId);
+      
+      if (sessionId) {
+        try {
+          const response = await GET(`${process.env.REACT_APP_BACKEND_URL}/checkout-session/${sessionId}`,{courseId:courseId});
+          console.log("ajima");
+          
+          setSessionDetails(response.data);
+        } catch (error) {
+          console.error("Error fetching session details:", error);
+        }
+      }
+    };
+    fetchSessionDetails();
+  }, [sessionId]);
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100">
       <h1 className="text-4xl font-semibold text-green-600">
