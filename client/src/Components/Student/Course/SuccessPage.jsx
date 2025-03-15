@@ -15,8 +15,6 @@ const Success = () => {
       if (sessionId) {
         try {
           const response = await GET(`${process.env.REACT_APP_BACKEND_URL}/checkout-session/${sessionId}`,{courseId:courseId});
-          console.log("ajima");
-          
           setSessionDetails(response.data);
         } catch (error) {
           console.error("Error fetching session details:", error);

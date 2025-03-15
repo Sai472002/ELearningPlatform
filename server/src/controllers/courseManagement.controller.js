@@ -214,6 +214,22 @@ const deleteCourse = async (req, res) => {
   }
 };
 
+
+const getPopularCourse =async(req,res)=>{
+  try {
+    const data = await courseDetails.find()
+    if(!data){
+      return res.json({mesage:"No Courses Found"})
+    }
+    data.sort((a,b)=>b.boughtBy.length-a.boughtBy.length)
+    const data1 = data.slice(0,4)
+    res.json(data1)
+  } catch (error) {
+    res.json(error.message)
+    
+  }
+}
+
 module.exports = {
   addCourse,
   editCourse,
@@ -221,4 +237,5 @@ module.exports = {
   getCoursebyId,
   getCourse,
   deleteCourse,
+  getPopularCourse
 };
