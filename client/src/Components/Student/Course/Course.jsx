@@ -77,6 +77,7 @@ const Course = ({ my = false }) => {
           content: myCourse,
         },
       ];
+
   return (
     <main className="h-[90vh] md:h-fit flex md:flex-row flex-col gap-2 items-start w-full relative bg-gray-50 ">
       <Filter
@@ -95,6 +96,9 @@ const Course = ({ my = false }) => {
               {v.title}
             </h1>
             <CourseCards coursedata={v.content} my={my} />
+            {filteredData.length === 0 && (
+              <small className="text-gray-500 mx-auto">No Course found</small>
+            )}
           </>
         ))}
       </div>

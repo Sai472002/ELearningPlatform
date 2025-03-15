@@ -1,9 +1,6 @@
-import { Dropdown, Rate, Table } from "antd";
+import { Rate, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import CustomButton from "./CustomButton";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { useCustomMessage } from "./CustomMessage";
 import { message, Popconfirm } from "antd";
 
 const CustomTable = ({
@@ -17,8 +14,6 @@ const CustomTable = ({
   editFunction = (data) => {},
   editBtn = true,
 }) => {
-  const navigate = useNavigate();
-  const [updateId, setUpdateId] = useState(false);
   const [coursedata, setCoursedata] = useState([]);
   const validate = sessionStorage.getItem("designation");
   const [defaultColumn, setDefaultColumn] = useState([
@@ -171,27 +166,38 @@ const CustomTable = ({
                   )}
                   {approveBtn === true && (
                     <>
-                      <CustomButton
-                        type="approve"
-                        disabled={record.status === "Pending" ? false : true}
-                        onClick={(e) => {
+                      <Popconfirm
+                        title="Approve"
+                        description="Are you sure to Approve this course ?"
+                        onConfirm={(e) => {
                           e.stopPropagation();
                           viewModal(record, 1, true);
                         }}
-                      />
-                      <CustomButton
-                        type="reject"
-                        disabled={
-                          record.status == "Approved" ||
-                          record.status == "Rejected"
-                            ? true
-                            : false
-                        }
-                        onClick={(e) => {
+                        onCancel={cancel}
+                        okText="Yes"
+                        cancelText="No"
+                      >
+                        <CustomButton
+                          type="approve"
+                          disabled={record.status === "Pending" ? false : true}
+                        />
+                      </Popconfirm>
+                      <Popconfirm
+                        title="Reject"
+                        description="Are you sure to Reject this course ?"
+                        onConfirm={(e) => {
                           e.stopPropagation();
                           viewModal(record, 2, true);
                         }}
-                      />
+                        onCancel={cancel}
+                        okText="Yes"
+                        cancelText="No"
+                      >
+                        <CustomButton
+                          type="reject"
+                          disabled={record.status === "Pending" ? false : true}
+                        />
+                      </Popconfirm>
                     </>
                   )}
                 </div>
@@ -217,7 +223,6 @@ const CustomTable = ({
   };
 
   const handleEdit = (data) => {
-    setUpdateId(true);
     editFunction(data);
   };
 

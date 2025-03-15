@@ -25,7 +25,8 @@ import AdminCourse from "./Components/Admin/Course/AdminCourse";
 import AdminInstructor from "./Components/Admin/Instructor/AdminInstructor";
 import AdminDashboard from "./Components/Admin/AdminDashboard";
 import AdminStudent from "./Components/Admin/Student/AdminStudent";
-import Request from "./Components/Instructor/Request/Request";
+import InstructorRequest from "./Components/Instructor/Request/InstructorRequest";
+import AdminRequest from "./Components/Admin/Request/Request";
 import NotFound from "./Components/Student/Home/PageNotFound";
 import CourseDetailsInstructor from "./Components/Instructor/Course/CourseContent";
 import CourseDetailsAdmin from "./Components/Admin/Course/CourseContent";
@@ -71,7 +72,7 @@ const Routers = () => {
           />
           <Route
             path="/instructordashboard/instructorrequest"
-            element={<Request />}
+            element={<InstructorRequest />}
           />
           <Route
             path="/instructordashboard/instructorcourse/addCourse"
@@ -92,7 +93,7 @@ const Routers = () => {
           />
           <Route path="/adminpanel/instructor" element={<AdminInstructor />} />
           <Route path="/adminpanel/student" element={<AdminStudent />} />
-          <Route path="/adminpanel/request" element={<Request />} />
+          <Route path="/adminpanel/request" element={<AdminRequest />} />
           <Route
             path="/adminpanel/course/editCourse"
             element={<EditCourse />}
