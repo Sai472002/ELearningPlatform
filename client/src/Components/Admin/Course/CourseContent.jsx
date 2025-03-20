@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { GET } from "../../ApiFunction/ApiFunction";
 import { Collapse } from "antd";
 import CustomAvatar from "../../Common/CustomAvatar";
+import Loading from "../../Common/LoadingPage";
 import {
   CaretRightOutlined,
-  ContactsFilled,
   DoubleLeftOutlined,
   PhoneOutlined,
   VideoCameraOutlined,
@@ -59,7 +59,7 @@ const CourseDetails = () => {
 
   return (
     <>
-      {temp?.length > 0 &&
+      {temp?.length > 0 ? (
         temp?.map((item, index) => (
           <div className="sm:flex h-full w-full relative">
             <div className="sm:w-[25%] bg-white flex gap-4 flex-col pr-4">
@@ -74,7 +74,7 @@ const CourseDetails = () => {
                 {item?.courseName}
               </p>
               {item?.instructorDetails?.map((ins) => (
-                <div className="flex flex-col items-center gap-3 mr-auto rounded bg-gray-50 p-4">
+                <div className="flex flex-col items-center gap-3 rounded bg-gray-50 p-4">
                   <CustomAvatar
                     editable={false}
                     name={ins?.username}
@@ -136,7 +136,10 @@ const CourseDetails = () => {
               />
             </div>
           </div>
-        ))}
+        ))
+      ) : (
+        <Loading />
+      )}
     </>
   );
 };

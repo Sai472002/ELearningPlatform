@@ -38,7 +38,7 @@ const AdminCourse = () => {
 
   const deleteData = async (params) => {
     const { _id } = params;
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     try {
       await axios.delete(`${action.DEL_COURSE}/${_id}`, {
         headers: {

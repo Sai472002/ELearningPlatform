@@ -49,7 +49,6 @@ function AddCourse() {
     subTopic: "",
     duration: "",
     courseType: "select",
-    rating: "",
     price: "",
     rows: [{ title: "", lectureDuration: "", description: "", learn: "" }],
     requirements: [""],
@@ -75,7 +74,6 @@ function AddCourse() {
       key: "price",
       type: "number",
     },
-    { label: "Rating", placeholder: "Enter rating", key: "rating" },
     { label: "Duration", placeholder: "Enter duration", key: "duration" },
   ];
 
@@ -146,14 +144,7 @@ function AddCourse() {
     if (video) formData.append("video", video);
 
     try {
-      // Log formData before submission
-      console.log(
-        "FormData before submission:",
-        Object.fromEntries(formData.entries())
-      );
-
       const response = await POSTFILE(action.ADD_COURSE, formData, token);
-
       if (response.status === 200) {
         setLoading(false);
         showMessage("success", "Course added successfully");
@@ -209,7 +200,6 @@ function AddCourse() {
         idx === index ? value : item
       ),
     });
-    console.log(courseData);
   };
 
   const handleDelete = (index, text) => {
@@ -249,6 +239,7 @@ function AddCourse() {
                       <ClockCircleOutlined className="text-Primary" />
                     )
                   }
+                  disabled={key === "rating" ? true : false}
                   onChange={(e) =>
                     handleInputChange(
                       key,

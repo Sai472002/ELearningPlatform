@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Rate } from "antd";
 import { useNavigate } from "react-router-dom";
+import { useCustomMessage } from "../../Common/CustomMessage";
+import { action } from "../../Url/url";
 
 const CourseCards = ({ coursedata, my }) => {
   const navigate = useNavigate();
-
+  const showMessage = useCustomMessage();
   return (
     <div className="h-fit w-full p-2 lg:pt-4 grid gap-2 lg:gap-4 grid-cols-2 md:grid-cols-3 lg:flex lg:flex-wrap transition-all duration-700">
       {coursedata.length > 0 &&
@@ -12,7 +14,16 @@ const CourseCards = ({ coursedata, my }) => {
           <button
             key={i}
             className="border rounded-lg p-4 max-h-64 min-h-48 lg:max-h-72 lg:min-h-80 lg:max-w-72 lg:min-w-72 hover:shadow-md transition-all duration-500 bg-white flex flex-col gap-2 relative"
-            onClick={() => navigate(`/courses/coursedetails/${v._id}`)}
+            onClick={() => {
+              if (sessionStorage.getItem("token")) {
+                navigate(`/courses/coursedetails/${v._id}`);
+              } else {
+                showMessage("info", "login to continue");
+                setTimeout(() => {
+                  navigate("/login");
+                }, 1000);
+              }
+            }}
           >
             <div className=" bg-gray-50 h-full">
               <img src={v.imagePath} className="rounded-md h-full" />

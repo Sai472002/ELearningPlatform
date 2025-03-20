@@ -9,9 +9,6 @@ const Nav = () => {
   const [isMenu, setIsMenu] = useState(false);
   const navigate = useNavigate();
   const { confirm } = Modal;
-  const [menuId, setMenuId] = useState(null);
-  const [signOut, setSignOut] = useState(!sessionStorage.getItem("token"));
-
   const navList = [
     { id: 1, to: "/", title: "Home" },
     { id: 2, to: "/courses", title: "Courses" },
@@ -19,6 +16,9 @@ const Nav = () => {
     { id: 4, to: "/contact", title: "Contact" },
     { id: 5, to: "/profiledetails", title: "Details" },
   ];
+  const [menuId, setMenuId] = useState(navList[0].id);
+  const [signOut, setSignOut] = useState(!sessionStorage.getItem("token"));
+
   const updatedNavList = [...navList.slice(0, 4)];
 
   if (signOut) {

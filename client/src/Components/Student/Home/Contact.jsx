@@ -1,6 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCustomMessage } from "../../Common/CustomMessage";
 
 const Contact = () => {
+  const navigate = useNavigate();
+  const showMessage = useCustomMessage();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -17,9 +21,15 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form Data Submitted:", formData);
-    setFormSubmitted(true);
-    setFormData({ name: "", email: "", subject: "", message: "" }); // Reset form
+    if (sessionStorage.getItem("token")) {
+      setFormSubmitted(true);
+      setFormData({ name: "", email: "", subject: "", message: "" }); // Reset form
+    } else {
+      showMessage("info", "login required");
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
+    }
   };
 
   return (
@@ -37,12 +47,12 @@ const Contact = () => {
 
           <div>
             <h3 className="font-bold">Phone:</h3>
-            <p className="text-gray-700">+91 6369914235</p>
+            <p className="text-gray-700">+91 123456789</p>
           </div>
 
           <div>
             <h3 className="font-bold">Email:</h3>
-            <p className="text-gray-700">samuelraj2810@gmail.com</p>
+            <p className="text-gray-700">Demomail@gmail.com</p>
           </div>
 
           <div>

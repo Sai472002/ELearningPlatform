@@ -75,8 +75,7 @@ const Dashboard = () => {
   };
 
   const handleMenuClick = (each) => {
-    setMenuId(each.id);
-    setIsMenuOpen((prev) => !prev);
+    setMenuId(each);
   };
   const showConfirm = () => {
     confirm({
@@ -108,7 +107,7 @@ const Dashboard = () => {
             className={`mr-2 bg-gray-100/10 hover:bg-white ${
               isMenuOpen && "bg-white !text-black"
             } hover:text-black transition-all duration-300 text-white rounded-full p-2`}
-            onClick={handleMenuClick}
+            onClick={() => setIsMenuOpen((prev) => !prev)}
           />
           <span className={` lg:hidden`}>Dashboard</span>
           <LogoutOutlined
@@ -130,14 +129,16 @@ const Dashboard = () => {
           </h1>
           <ul className="capitalize flex flex-col m-4">
             {navList.map((each, i) => (
-              <Link to={each.to} key={each.id} onClick={handleMenuClick}>
+              <Link
+                to={each.to}
+                key={each.id}
+                onClick={() => handleMenuClick(each.id)}
+              >
                 <li
                   key={each.id}
-                  className={`p-2 text-nowrap rounded-md m-2 border ${
-                    menuId === each.id
-                      ? "!text-Primary !bg-Primary/5"
-                      : "bg-gray-100/10"
-                  } hover:border-Primary hover:text-Primary transition-all duration-300`}
+                  className={`p-2 text-nowrap rounded-md m-2 border transition-all duration-300 hover:border-Primary hover:text-Primary ${
+                    menuId === each.id && "border-Primary text-Primary"
+                  }`}
                 >
                   {each.icon}
                   {each.title}

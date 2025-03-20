@@ -11,13 +11,14 @@ const CustomModal = ({
   showCloseButton = false,
   className,
   children,
+  onOk,
   footer,
 }) => {
   return (
     <Modal
       open={open}
       onCancel={onClose}
-      onOk
+      onOk={onOk}
       width={width}
       centered={centered}
       className={classNames}

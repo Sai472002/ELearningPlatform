@@ -13,14 +13,12 @@ import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import { action } from "../../Url/url";
 import CustomAvatar from "../../Common/CustomAvatar";
-
-
+import LoadingPage from "../../Common/LoadingPage";
 
 const CourseDetails = ({ data }) => {
   const { _id } = useParams();
   const navigate = useNavigate();
   const [temp, setTemp] = useState([]);
-
 
   const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
@@ -86,7 +84,7 @@ const CourseDetails = ({ data }) => {
 
   return (
     <>
-      {temp?.length > 0 &&
+      {temp?.length > 0 ? (
         temp?.map((item, index) => (
           <div className="sm:flex h-full md:h-[90vh] w-full border relative">
             <div className="sm:w-[25%] bg-white border flex gap-4 p-4 flex-col">
@@ -101,7 +99,7 @@ const CourseDetails = ({ data }) => {
                 {item?.courseName}
               </p>
               {item?.instructorDetails?.map((ins) => (
-                <div className="flex flex-col items-center gap-3 mr-auto rounded bg-gray-50 p-4">
+                <div className="flex flex-col items-center gap-3 rounded bg-gray-50 p-4">
                   <CustomAvatar
                     editable={false}
                     name={ins?.username}
@@ -186,7 +184,10 @@ const CourseDetails = ({ data }) => {
               )}
             </div>
           </div>
-        ))}
+        ))
+      ) : (
+        <LoadingPage />
+      )}
     </>
   );
 };

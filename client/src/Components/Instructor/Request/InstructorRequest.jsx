@@ -3,7 +3,7 @@ import CustomTable from "../../Common/CustomTable";
 import { DELETE, GET } from "../../ApiFunction/ApiFunction";
 import { useCustomMessage } from "../../Common/CustomMessage";
 import { action } from "../../Url/url";
-const Request = () => {
+const InstructorRequest = () => {
   const [request, setRequest] = useState([]);
   const showMessage = useCustomMessage();
   const [active, setActive] = useState(0);
@@ -14,16 +14,19 @@ const Request = () => {
     { name: "Approved", color: "#349C5E" },
     { name: "Rejected", color: "#f43f5e" },
   ];
+
   const fetch = async () => {
     const res = await GET(action.GET_REQ);
     setRequest(res);
   };
+
   const filterData = useMemo(() => {
     if (active !== 0) {
       return request.filter((a) => a.status === buttonOption[active].name);
     }
     return request;
   }, [active, request]);
+
   useEffect(() => {
     fetch();
   }, []);
@@ -83,7 +86,6 @@ const Request = () => {
     const res = await DELETE(`${action.DEL_REQ}/${courseid}/${reqid}`);
     if (res.status === 200) {
       showMessage("success", res.data.message);
-      fetch();
     } else {
       showMessage("error", res.data.message);
     }
@@ -92,10 +94,10 @@ const Request = () => {
 
   return (
     <div className="grid gap-4">
-      <h1 className="lg:text-lg font-semibold text-gray-700 flex gap-2 ">
-        Request{" "}
+      <h1 className="lg:text-lg font-semibold text-gray-700 tracking-wide flex gap-2">
+        Requests{" "}
         <p className="rounded-full text-sm h-[30px] w-[30px] flex items-center justify-center bg-Primary text-white ">
-          {request?.length}
+          {request.length}
         </p>
       </h1>
       <div className="flex items-center gap-3">
@@ -118,7 +120,7 @@ const Request = () => {
         columns={header}
         data={filterData}
         approveBtn
-        viewModal={(v, i, view) => {
+        viewModal={(v, i) => {
           handleRequest(i, v);
         }}
       />
@@ -126,4 +128,4 @@ const Request = () => {
   );
 };
 
-export default Request;
+export default InstructorRequest;

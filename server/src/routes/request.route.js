@@ -60,11 +60,9 @@ router.delete("/deleterequest/:courseid/:reqid", async(req,res)=>{
         await cloudinary.uploader.destroy(data.videoName, { resource_type: 'video' });
         await cloudinary.uploader.destroy(data.imageName, { resource_type: 'image' });
       }
-      log("files deleted")
       const data1 = await courseDetails.findByIdAndDelete({_id:courseid});
       const data2 = await Request.findOne({ courseid });
       data2.status = "Approved";
-      log("status changed")
       await data2.save();
       res.json({ message: "Course Deleted" });  
     } else {

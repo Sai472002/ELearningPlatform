@@ -28,4 +28,6 @@ export const action = {
   FORGET_PASSWORD: main + "/forgotpassword",
   RESET_PASSWORD: main + "/resetpass",
   REGISTER: main + "/register",
+
+  GET_POPULAR_COURSE: main + "/getpopularcourse",
 };
