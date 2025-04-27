@@ -29,23 +29,25 @@ const Course = () => {
 
         <div className=" w-full grid grid-flow-col md:p-2 lg:flex justify-evenly gap-5 overflow-x-scroll md:overflow-hidden">
           {data?.length > 0 ? (
-            data.map((course) => (
+            data?.map((course) => (
               <div
-                key={course.id}
-                className="bg-white flex-col shadow-md h-[300px] md:h-fit w-[250px] md:w-[280px] border-b-1 rounded-lg p-2 transition-transform  lg:hover:-translate-y-3 hover:shadow-md"
+                key={course?.id}
+                className="bg-white flex-col shadow-md h-[300px] md:h-fit w-[250px] md:w-[280px] border-b-1 rounded-lg p-2 hover:shadow-md"
               >
                 <img
-                  src={course.imagePath}
-                  alt={course.courseName}
+                  src={course?.imagePath}
+                  alt={course?.courseName}
                   className="w-full h-[170px] object-contain rounded-md mb-4"
                 />
-                <h2 className="text-xl font-semibold truncate">{course.courseName}</h2>
+                <h2 className="text-xl font-semibold truncate">
+                  {course?.courseName}
+                </h2>
                 <p className="text-gray-700">
-                  Instructor: {course.instructorName}
+                  Instructor: {course?.instructorName}
                 </p>
-                <p className="text-green-500 font-bold truncate">{course.price}</p>
+                <p className="text-green-500 font-bold">{course?.price}</p>
                 <p className="text-yellow-500 font-semibold">
-                  Rating: {course.rating} ⭐
+                  Rating: {course?.rating} ⭐
                 </p>
                 <Link
                   to={

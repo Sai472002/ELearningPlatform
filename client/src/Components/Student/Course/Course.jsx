@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Filter from "./Filter";
 import CourseCards from "./CourseCards";
-import { GET, GETCOURSE } from "../../ApiFunction/ApiFunction";
+import { GETCOURSE } from "../../ApiFunction/ApiFunction";
 import { action } from "../../Url/url";
 
 const Course = ({ my = false }) => {
@@ -96,9 +96,6 @@ const Course = ({ my = false }) => {
               {v.title}
             </h1>
             <CourseCards coursedata={v.content} my={my} />
-            {filteredData.length === 0 && (
-              <small className="text-gray-500 mx-auto">No Course found</small>
-            )}
           </>
         ))}
       </div>

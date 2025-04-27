@@ -8,8 +8,7 @@ import {
   VideoCameraOutlined,
 } from "@ant-design/icons";
 import { action } from "../../Url/url";
-
-// Replace with your own Stripe public key
+import LoadingPage from "../../Common/LoadingPage";
 
 const CourseDetails = () => {
   const { _id } = useParams();
@@ -54,7 +53,7 @@ const CourseDetails = () => {
 
   return (
     <>
-      {temp?.length > 0 &&
+      {temp?.length > 0 ? (
         temp?.map((item, index) => (
           <div className="sm:flex h-full w-full relative">
             <div className="sm:w-[25%] bg-white flex gap-4 flex-col pr-4">
@@ -113,7 +112,10 @@ const CourseDetails = () => {
               />
             </div>
           </div>
-        ))}
+        ))
+      ) : (
+        <LoadingPage />
+      )}
     </>
   );
 };

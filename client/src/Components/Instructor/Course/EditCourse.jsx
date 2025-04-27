@@ -78,7 +78,12 @@ function EditCourse() {
       key: "price",
       type: "number",
     },
-    { label: "Rating", placeholder: "Enter rating", key: "rating" },
+    {
+      label: "Rating",
+      placeholder: "Enter rating",
+      key: "rating",
+      disable: true,
+    },
     { label: "Duration", placeholder: "Enter duration", key: "duration" },
   ];
 
@@ -225,28 +230,31 @@ function EditCourse() {
       <span className="text-xl border-b pb-4">Edit Course</span>
       <table className="table-auto w-fit ">
         <tbody className="">
-          {inputFields.map(({ label, placeholder, key, type = "text" }) => (
-            <tr key={key} className="grid grid-cols-1 md:grid-cols-2">
-              <td className="px-4 py-2 font-medium">{label}</td>
-              <td className="md:px-4 py-2">
-                <CustomInput
-                  placeholder={placeholder}
-                  className="w-full"
-                  containerClassName="p-2 flex items-center gap-4"
-                  type={type}
-                  value={editdata[key] || ""}
-                  onChange={(e) =>
-                    handleInputChange(
-                      key,
-                      type === "number"
-                        ? parseFloat(e.target.value)
-                        : e.target.value
-                    )
-                  }
-                />
-              </td>
-            </tr>
-          ))}
+          {inputFields.map(
+            ({ label, placeholder, key, type = "text", disable }) => (
+              <tr key={key} className="grid grid-cols-1 md:grid-cols-2">
+                <td className="px-4 py-2 font-medium">{label}</td>
+                <td className="md:px-4 py-2">
+                  <CustomInput
+                    placeholder={placeholder}
+                    className="w-full"
+                    containerClassName="p-2 flex items-center gap-4"
+                    type={type}
+                    disabled={disable}
+                    value={editdata[key] || ""}
+                    onChange={(e) =>
+                      handleInputChange(
+                        key,
+                        type === "number"
+                          ? parseFloat(e.target.value)
+                          : e.target.value
+                      )
+                    }
+                  />
+                </td>
+              </tr>
+            )
+          )}
           <tr className="grid grid-cols-1 md:grid-cols-2 ">
             <td className="px-4 py-2 font-medium">
               Course Type{" "}
