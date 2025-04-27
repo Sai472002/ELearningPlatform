@@ -5,7 +5,6 @@ const courseDetails = require("../models/course.model")
 const router = express.Router();
 const { format } = require("date-fns");
 const { verifyToken } = require("../middleware/authToken");
-const { log } = require("console");
 const cloudinary = require("../config/Cloudinary");
 
 
