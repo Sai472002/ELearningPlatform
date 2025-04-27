@@ -28,7 +28,7 @@ const Course = () => {
         </h1>
 
         <div className=" w-full grid grid-flow-col md:p-2 lg:flex justify-evenly gap-5 overflow-x-scroll md:overflow-hidden">
-          {data.length > 0 ? (
+          {data?.length > 0 ? (
             data.map((course) => (
               <div
                 key={course.id}
