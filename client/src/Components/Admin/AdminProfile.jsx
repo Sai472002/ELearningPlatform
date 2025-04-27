@@ -12,7 +12,7 @@ const AdminProfile = () => {
   const adminData = [
     {
       title: "Courses",
-      count: courseData?.length,
+      count: userData?.length,
     },
     {
       title: "Enrolled",

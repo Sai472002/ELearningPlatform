@@ -36,7 +36,7 @@ const AdminStudent = () => {
   const columns = [
     {
       title: "Student Name",
-      dataIndex: "name",
+      dataIndex: "username",
     },
     {
       title: "Email Id",
